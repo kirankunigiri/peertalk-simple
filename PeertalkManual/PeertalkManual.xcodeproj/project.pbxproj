@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F57F06E1E2360CD00C5801F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F57F06D1E2360CD00C5801F /* Helper.swift */; };
+		9F57F06F1E2360E200C5801F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F57F06D1E2360CD00C5801F /* Helper.swift */; };
+		9F57F0721E23644E00C5801F /* PTUSBHub.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE4F1E2208EF0065410F /* PTUSBHub.m */; };
+		9F57F0731E23644E00C5801F /* PTUSBHub.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE4F1E2208EF0065410F /* PTUSBHub.m */; };
+		9F57F0741E23645500C5801F /* PTProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE4D1E2208EF0065410F /* PTProtocol.m */; };
+		9F57F0751E23645500C5801F /* PTProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE4D1E2208EF0065410F /* PTProtocol.m */; };
+		9F57F0761E23645E00C5801F /* PTChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE491E2208EF0065410F /* PTChannel.m */; };
+		9F57F0771E23645E00C5801F /* PTChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE491E2208EF0065410F /* PTChannel.m */; };
 		9F91AE221E22089E0065410F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE211E22089E0065410F /* AppDelegate.swift */; };
 		9F91AE241E22089E0065410F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE231E22089E0065410F /* ViewController.swift */; };
 		9F91AE271E22089E0065410F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F91AE251E22089E0065410F /* Main.storyboard */; };
@@ -16,9 +24,11 @@
 		9F91AE3A1E2208AD0065410F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE391E2208AD0065410F /* ViewController.swift */; };
 		9F91AE3C1E2208AD0065410F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F91AE3B1E2208AD0065410F /* Assets.xcassets */; };
 		9F91AE3F1E2208AD0065410F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F91AE3D1E2208AD0065410F /* Main.storyboard */; };
+		9F91AE511E2208EF0065410F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F91AE451E2208EF0065410F /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F57F06D1E2360CD00C5801F /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = "PeertalkManual-Mac/Helper.swift"; sourceTree = "<group>"; };
 		9F91AE1F1E22089E0065410F /* PeertalkManual-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PeertalkManual-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F91AE211E22089E0065410F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F91AE231E22089E0065410F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -32,6 +42,18 @@
 		9F91AE3B1E2208AD0065410F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F91AE3E1E2208AD0065410F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9F91AE401E2208AD0065410F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F91AE451E2208EF0065410F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F91AE461E2208EF0065410F /* Peertalk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Peertalk.h; sourceTree = "<group>"; };
+		9F91AE471E2208EF0065410F /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
+		9F91AE481E2208EF0065410F /* PTChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTChannel.h; sourceTree = "<group>"; };
+		9F91AE491E2208EF0065410F /* PTChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTChannel.m; sourceTree = "<group>"; };
+		9F91AE4A1E2208EF0065410F /* PTExampleProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTExampleProtocol.h; sourceTree = "<group>"; };
+		9F91AE4B1E2208EF0065410F /* PTPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPrivate.h; sourceTree = "<group>"; };
+		9F91AE4C1E2208EF0065410F /* PTProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTProtocol.h; sourceTree = "<group>"; };
+		9F91AE4D1E2208EF0065410F /* PTProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTProtocol.m; sourceTree = "<group>"; };
+		9F91AE4E1E2208EF0065410F /* PTUSBHub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTUSBHub.h; sourceTree = "<group>"; };
+		9F91AE4F1E2208EF0065410F /* PTUSBHub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTUSBHub.m; sourceTree = "<group>"; };
+		9F91AE501E2208EF0065410F /* PeertalkManual-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PeertalkManual-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +77,9 @@
 		9F91ADFD1E2208390065410F = {
 			isa = PBXGroup;
 			children = (
+				9F91AE441E2208EF0065410F /* peertalk */,
+				9F91AE501E2208EF0065410F /* PeertalkManual-Bridging-Header.h */,
+				9F57F06D1E2360CD00C5801F /* Helper.swift */,
 				9F91AE201E22089E0065410F /* PeertalkManual-iOS */,
 				9F91AE361E2208AD0065410F /* PeertalkManual-Mac */,
 				9F91AE071E2208390065410F /* Products */,
@@ -93,6 +118,24 @@
 				9F91AE401E2208AD0065410F /* Info.plist */,
 			);
 			path = "PeertalkManual-Mac";
+			sourceTree = "<group>";
+		};
+		9F91AE441E2208EF0065410F /* peertalk */ = {
+			isa = PBXGroup;
+			children = (
+				9F91AE451E2208EF0065410F /* Info.plist */,
+				9F91AE461E2208EF0065410F /* Peertalk.h */,
+				9F91AE471E2208EF0065410F /* prefix.pch */,
+				9F91AE481E2208EF0065410F /* PTChannel.h */,
+				9F91AE491E2208EF0065410F /* PTChannel.m */,
+				9F91AE4A1E2208EF0065410F /* PTExampleProtocol.h */,
+				9F91AE4B1E2208EF0065410F /* PTPrivate.h */,
+				9F91AE4C1E2208EF0065410F /* PTProtocol.h */,
+				9F91AE4D1E2208EF0065410F /* PTProtocol.m */,
+				9F91AE4E1E2208EF0065410F /* PTUSBHub.h */,
+				9F91AE4F1E2208EF0065410F /* PTUSBHub.m */,
+			);
+			path = peertalk;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +187,7 @@
 				TargetAttributes = {
 					9F91AE1E1E22089E0065410F = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = Y9Y96CV7VP;
 						ProvisioningStyle = Automatic;
 					};
 					9F91AE341E2208AD0065410F = {
@@ -176,6 +220,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F91AE511E2208EF0065410F /* Info.plist in Resources */,
 				9F91AE2C1E22089E0065410F /* LaunchScreen.storyboard in Resources */,
 				9F91AE291E22089E0065410F /* Assets.xcassets in Resources */,
 				9F91AE271E22089E0065410F /* Main.storyboard in Resources */,
@@ -199,7 +244,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F91AE241E22089E0065410F /* ViewController.swift in Sources */,
+				9F57F0761E23645E00C5801F /* PTChannel.m in Sources */,
 				9F91AE221E22089E0065410F /* AppDelegate.swift in Sources */,
+				9F57F0721E23644E00C5801F /* PTUSBHub.m in Sources */,
+				9F57F06F1E2360E200C5801F /* Helper.swift in Sources */,
+				9F57F0741E23645500C5801F /* PTProtocol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,7 +257,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F91AE3A1E2208AD0065410F /* ViewController.swift in Sources */,
+				9F57F0771E23645E00C5801F /* PTChannel.m in Sources */,
 				9F91AE381E2208AD0065410F /* AppDelegate.swift in Sources */,
+				9F57F0731E23644E00C5801F /* PTUSBHub.m in Sources */,
+				9F57F06E1E2360CD00C5801F /* Helper.swift in Sources */,
+				9F57F0751E23645500C5801F /* PTProtocol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,10 +392,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Y9Y96CV7VP;
 				INFOPLIST_FILE = "PeertalkManual-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "self.edu.PeertalkManual-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PeertalkManual-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -351,10 +407,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Y9Y96CV7VP;
 				INFOPLIST_FILE = "PeertalkManual-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "self.edu.PeertalkManual-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PeertalkManual-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -371,6 +430,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "self.edu.PeertalkManual-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "PeertalkManual-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -387,6 +447,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "self.edu.PeertalkManual-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "PeertalkManual-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -410,6 +471,7 @@
 				9F91AE301E22089E0065410F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9F91AE411E2208AD0065410F /* Build configuration list for PBXNativeTarget "PeertalkManual-Mac" */ = {
 			isa = XCConfigurationList;
@@ -418,6 +480,7 @@
 				9F91AE431E2208AD0065410F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

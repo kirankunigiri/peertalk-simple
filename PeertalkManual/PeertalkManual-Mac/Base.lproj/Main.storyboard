@@ -1,7 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11134"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -653,7 +656,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="PeertalkManual_Mac" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
@@ -679,15 +682,48 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="PeertalkManual_Mac" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="288"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YfC-tq-8Tr">
+                                <rect key="frame" x="173" y="105" width="134" height="135"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="130" id="Pb6-Pb-PoE"/>
+                                    <constraint firstAttribute="width" secondItem="YfC-tq-8Tr" secondAttribute="height" multiplier="1:1" id="k6I-zq-oOd"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" title="Send" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gS5-4W-Asa">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system" size="30"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="sendButtonPressed:" target="XfG-lQ-9wD" id="AoV-3c-Y77"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kd1-p6-Gdl">
+                                <rect key="frame" x="226" y="40" width="29" height="48"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="UZ1-6F-tx4">
+                                    <font key="font" metaFont="system" size="40"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Kd1-p6-Gdl" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="cAq-Qe-eHp"/>
+                            <constraint firstItem="YfC-tq-8Tr" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="50" id="h5l-1u-t4i"/>
+                            <constraint firstItem="Kd1-p6-Gdl" firstAttribute="top" secondItem="YfC-tq-8Tr" secondAttribute="bottom" constant="20" id="tR6-vl-DqR"/>
+                            <constraint firstItem="YfC-tq-8Tr" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="ycR-c4-mAl"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="label" destination="Kd1-p6-Gdl" id="qPA-Zw-YBy"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="664"/>
         </scene>
     </scenes>
 </document>
