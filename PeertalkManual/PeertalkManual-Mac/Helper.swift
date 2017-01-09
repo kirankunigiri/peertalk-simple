@@ -22,3 +22,8 @@ extension String {
     }
     
 }
+
+enum PTFrame: UInt32 {
+    case message = 100
+    case deviceInfo = 101
+}

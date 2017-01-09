@@ -67,11 +67,6 @@ class ViewController: NSViewController {
             print(error ?? "Sent")
         })
     }
-    
-    enum PTFrame: UInt32 {
-        case message = 100
-        case deviceInfo = 101
-    }
 
 }
 
@@ -82,7 +77,7 @@ extension ViewController: PTChannelDelegate {
     
     // Decide whether or not to accept the frame
     func ioFrameChannel(_ channel: PTChannel!, shouldAcceptFrameOfType type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
-        
+        print("Will accept frame type")
         // Check if it is of the frame type we want. Otherwise close the channel
         if type != PTFrame.message.rawValue {
             channel.close()
@@ -207,21 +202,15 @@ extension ViewController {
         channel?.userInfo = "127.0.0.1:\(PORT_NUMBER)"
         
         channel?.connect(toPort: in_port_t(PORT_NUMBER), iPv4Address: INADDR_LOOPBACK, callback: { (error, address) in
-            if (error != nil) {
-                let nsError = error as! NSError
-                if nsError.domain == NSPOSIXErrorDomain && (nsError.code == Int(ECONNREFUSED) || nsError.code == Int(ETIMEDOUT)) {
-                    // this is an expected state
-                }
-                else {
-                    print("Failed to connect to 127.0.0.1:\(PORT_NUMBER): \(error)")
-                }
-            }
-            else {
+            if error == nil {
+                // Update to new channel
                 self.disconnectFromCurrentChannel()
                 self.connectedChannel = channel
                 channel?.userInfo = address!
-                print("Connected to \(address)")
+            } else {
+                print(error!)
             }
+            
             self.perform(#selector(self.enqueueConnectToLocalIPv4Port), with: nil, afterDelay: self.PTAppReconnectDelay)
         })
     }
@@ -241,22 +230,18 @@ extension ViewController {
         
         channel?.connect(toPort: PTExampleProtocolIPv4PortNumber, overUSBHub: PTUSBHub.shared(), deviceID: connectingToDeviceID, callback: { (error) in
             if error != nil {
-                let nsError = error as! NSError
-                if nsError.domain == PTUSBHubErrorDomain /*&& nsError.code == PTUSBHubErrorConnectionRefused*/ {
-                    print("Failed to connect to device #\(channel?.userInfo): \(error)")
-                }
+                print(error!)
                 // Reconnet to the device
                 if (channel?.userInfo != nil && (channel?.userInfo as! NSNumber).isEqual(to: self.connectingToDeviceID)) {
                     self.perform(#selector(self.enqueueConnectToUSBDevice), with: nil, afterDelay: self.PTAppReconnectDelay)
                 }
-            }
-            else {
+            } else {
                 // Update connected device properties
                 self.connectedDeviceID = self.connectingToDeviceID
                 self.connectedChannel = channel
                 // TODO: Check connected device vs connecting device
                 print(self.connectedDeviceID)
-                print(self.connectedDeviceProperties)
+                print(self.connectedDeviceProperties!)
             }
         })
     }

@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     /** Sends data to the connected device */
     func sendData(data: DispatchData) {
         if peerChannel != nil {
-            peerChannel?.sendFrame(ofType: UInt32(PTExampleFrameTypeTextMessage), tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
+            peerChannel?.sendFrame(ofType: PTFrame.message.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
                 print(error?.localizedDescription ?? "Sent data")
             })
         }

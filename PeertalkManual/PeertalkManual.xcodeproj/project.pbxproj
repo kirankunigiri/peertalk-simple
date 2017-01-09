@@ -47,7 +47,6 @@
 		9F91AE471E2208EF0065410F /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
 		9F91AE481E2208EF0065410F /* PTChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTChannel.h; sourceTree = "<group>"; };
 		9F91AE491E2208EF0065410F /* PTChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTChannel.m; sourceTree = "<group>"; };
-		9F91AE4A1E2208EF0065410F /* PTExampleProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTExampleProtocol.h; sourceTree = "<group>"; };
 		9F91AE4B1E2208EF0065410F /* PTPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPrivate.h; sourceTree = "<group>"; };
 		9F91AE4C1E2208EF0065410F /* PTProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTProtocol.h; sourceTree = "<group>"; };
 		9F91AE4D1E2208EF0065410F /* PTProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTProtocol.m; sourceTree = "<group>"; };
@@ -128,7 +127,6 @@
 				9F91AE471E2208EF0065410F /* prefix.pch */,
 				9F91AE481E2208EF0065410F /* PTChannel.h */,
 				9F91AE491E2208EF0065410F /* PTChannel.m */,
-				9F91AE4A1E2208EF0065410F /* PTExampleProtocol.h */,
 				9F91AE4B1E2208EF0065410F /* PTPrivate.h */,
 				9F91AE4C1E2208EF0065410F /* PTProtocol.h */,
 				9F91AE4D1E2208EF0065410F /* PTProtocol.m */,
