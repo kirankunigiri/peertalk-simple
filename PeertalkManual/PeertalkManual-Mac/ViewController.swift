@@ -8,17 +8,18 @@
 
 import Cocoa
 
+// MARK: - Main Class
 class ViewController: NSViewController {
 
-    // Outlets
+    // MARK: Outlets
     @IBOutlet weak var label: NSTextField!
     
-    // Constants
+    // MARK: Constants
+    
+    /** The interval for rechecking whether or not an iOS device is connected */
     let PTAppReconnectDelay: TimeInterval = 1.0
     
-    // Properties
-    var debugMode = false
-    
+    // MARK: Properties
     var connectingToDeviceID: NSNumber!
     var connectedDeviceID: NSNumber!
     var connectedDeviceProperties: NSDictionary?
@@ -30,31 +31,34 @@ class ViewController: NSViewController {
         didSet {
             
             // Toggle the notConnectedQueue depending on if we are connected or not
-            if !(connectedChannel != nil) && notConnectedQueueSuspended {
+            if connectedChannel == nil && notConnectedQueueSuspended {
                 notConnectedQueue.resume()
                 notConnectedQueueSuspended = false
-            }
-            else if (connectedChannel != nil) && !notConnectedQueueSuspended {
+            } else if connectedChannel != nil && !notConnectedQueueSuspended {
                 notConnectedQueue.suspend()
                 notConnectedQueueSuspended = true
             }
             
-            if !(connectedChannel != nil) && (connectingToDeviceID != nil) {
+            // Reconnect to the device if we were originally connecting to one
+            if connectedChannel == nil && connectingToDeviceID != nil {
                 self.enqueueConnectToUSBDevice()
             }
         }
     }
     
     
+    // MARK: Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Start the peertalk service
         self.startListeningForDevices()
         self.enqueueConnectToLocalIPv4Port()
     }
 
     @IBAction func sendButtonPressed(_ sender: NSButton) {
+        // If we are connected, send data to the device
         if connectedChannel != nil {
             let num = "\(Int(label.stringValue)! + 1)"
             self.label.stringValue = num
@@ -62,6 +66,7 @@ class ViewController: NSViewController {
         }
     }
     
+    /** Sends data to the connected iOS device */
     func sendData(data: DispatchData) {
         connectedChannel?.sendFrame(ofType: PTFrame.message.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData, callback: { (error) in
             print(error ?? "Sent")
@@ -72,7 +77,7 @@ class ViewController: NSViewController {
 
 
 
-
+// MARK: - PTChannel Delegate
 extension ViewController: PTChannelDelegate {
     
     // Decide whether or not to accept the frame
@@ -89,14 +94,12 @@ extension ViewController: PTChannelDelegate {
     // Receive the frame data
     func ioFrameChannel(_ channel: PTChannel, didReceiveFrameOfType type: UInt32, tag: UInt32, payload: PTData) {
         
+        // If it is of type device info, then convert the data to a dictionary
         if type == PTFrame.deviceInfo.rawValue {
-            
-            // If it is of type device info, then convert the data to a dictionary
             var deviceInfo = NSDictionary(contentsOfDispatchData: payload.dispatchData)
-            
-        } else if type == PTFrame.message.rawValue {
-            
-            // If it is a message, convert the data to a string
+        }
+        // If it is a message, convert the data to a string
+        else if type == PTFrame.message.rawValue {
             let data = payload.dispatchData as DispatchData
             let message = String(bytes: data, encoding: .utf8)!
             
@@ -110,7 +113,7 @@ extension ViewController: PTChannelDelegate {
     func ioFrameChannel(_ channel: PTChannel!, didEndWithError error: Error!) {
         
         // Check that the disconnected device is the current device
-        if connectedDeviceID != nil && (connectedDeviceID.isEqual(to: channel.userInfo)) {
+        if connectedDeviceID != nil && connectedDeviceID.isEqual(to: channel.userInfo) {
             self.didDisconnect(fromDevice: connectedDeviceID)
         }
         
@@ -140,9 +143,11 @@ extension ViewController {
         // Add an observer for when the device attaches
         nc.addObserver(forName: NSNotification.Name.PTUSBDeviceDidAttach, object: PTUSBHub.shared(), queue: nil) { (note) in
             
+            // Grab the device ID from the user info
             let deviceID = note.userInfo!["DeviceID"] as! NSNumber
-            print("PTUSBDeviceDidAttachNotification: \(deviceID)")
+            print("Attached to device: \(deviceID)")
             
+            // Update our properties on our thread
             self.notConnectedQueue.async(execute: {() -> Void in
                 if self.connectingToDeviceID == nil || !deviceID.isEqual(to: self.connectingToDeviceID) {
                     self.disconnectFromCurrentChannel()
@@ -156,9 +161,11 @@ extension ViewController {
         // Add an observer for when the device detaches
         nc.addObserver(forName: NSNotification.Name.PTUSBDeviceDidDetach, object: PTUSBHub.shared(), queue: nil) { (note) in
             
+            // Grab the device ID from the user info
             let deviceID = note.userInfo!["DeviceID"] as! NSNumber
-            print("PTUSBDeviceDidDetachNotification: \(deviceID)")
+            print("Detached from device: \(deviceID)")
             
+            // Update our properties on our thread
             if self.connectingToDeviceID.isEqual(to: deviceID) {
                 self.connectedDeviceProperties = nil
                 self.connectingToDeviceID = nil
@@ -175,6 +182,7 @@ extension ViewController {
     func didDisconnect(fromDevice deviceID: NSNumber) {
         print("Disconnected from device")
         
+        // Notify the class that the device has changed
         if connectedDeviceID.isEqual(to: deviceID) {
             self.willChangeValue(forKey: "connectedDeviceID")
             connectedDeviceID = nil
@@ -182,6 +190,7 @@ extension ViewController {
         }
     }
     
+    /** Disconnects from the connected channel */
     func disconnectFromCurrentChannel() {
         if connectedDeviceID != nil && connectedChannel != nil {
             connectedChannel?.close()
@@ -228,7 +237,8 @@ extension ViewController {
         channel?.userInfo = connectingToDeviceID
         channel?.delegate = self
         
-        channel?.connect(toPort: PTExampleProtocolIPv4PortNumber, overUSBHub: PTUSBHub.shared(), deviceID: connectingToDeviceID, callback: { (error) in
+        // Connect to the device
+        channel?.connect(toPort: Int32(PORT_NUMBER), overUSBHub: PTUSBHub.shared(), deviceID: connectingToDeviceID, callback: { (error) in
             if error != nil {
                 print(error!)
                 // Reconnet to the device
@@ -239,8 +249,7 @@ extension ViewController {
                 // Update connected device properties
                 self.connectedDeviceID = self.connectingToDeviceID
                 self.connectedChannel = channel
-                // TODO: Check connected device vs connecting device
-                print(self.connectedDeviceID)
+                // Check the device properties
                 print(self.connectedDeviceProperties!)
             }
         })
