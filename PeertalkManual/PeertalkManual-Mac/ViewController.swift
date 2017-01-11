@@ -62,13 +62,17 @@ class ViewController: NSViewController {
         if connectedChannel != nil {
             let num = "\(Int(label.stringValue)! + 1)"
             self.label.stringValue = num
-            self.sendData(data: "\(num)".dispatchData)
+
+            let d = NSKeyedArchiver.archivedData(withRootObject: "\(num)") as NSData
+            self.sendData(data: d)
+            
+//            self.sendData(data: "\(num)".dispatchData)
         }
     }
     
     /** Sends data to the connected iOS device */
-    func sendData(data: DispatchData) {
-        connectedChannel?.sendFrame(ofType: PTFrame.message.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData, callback: { (error) in
+    func sendData(data: NSData) {
+        connectedChannel?.sendFrame(ofType: PTFrame.message.rawValue, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
             print(error ?? "Sent")
         })
     }
@@ -95,13 +99,17 @@ extension ViewController: PTChannelDelegate {
     func ioFrameChannel(_ channel: PTChannel, didReceiveFrameOfType type: UInt32, tag: UInt32, payload: PTData) {
         
         // If it is of type device info, then convert the data to a dictionary
-        if type == PTFrame.deviceInfo.rawValue {
+        if type == PTFrame.count.rawValue {
             var deviceInfo = NSDictionary(contentsOfDispatchData: payload.dispatchData)
         }
         // If it is a message, convert the data to a string
         else if type == PTFrame.message.rawValue {
             let data = payload.dispatchData as DispatchData
-            let message = String(bytes: data, encoding: .utf8)!
+//            let message = String(bytes: data, encoding: .utf8)!
+            
+            let nsData = NSData(contentsOfDispatchData: data as __DispatchData) as Data
+            let message = nsData.convert() as! String
+            
             
             // Update the UI
             self.label.stringValue = message

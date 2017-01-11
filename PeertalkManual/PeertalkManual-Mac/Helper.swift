@@ -24,6 +24,17 @@ extension String {
 }
 
 enum PTFrame: UInt32 {
-    case message = 100
-    case deviceInfo = 101
+    case count = 100
+    case message = 101
+}
+
+
+// MARK: - Data extension for conversion
+extension Data {
+    
+    /** Unarchive data into an object. It will be returned as type `Any` but you can cast it into the correct type. */
+    func convert() -> Any {
+        return NSKeyedUnarchiver.unarchiveObject(with: self)!
+    }
+    
 }

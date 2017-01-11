@@ -36,7 +36,11 @@ class ViewController: UIViewController {
         if peerChannel != nil {
             let num = "\(Int(label.text!)! + 1)"
             self.label.text = num
-            self.sendData(data: "\(num)".dispatchData)
+            
+            let d = NSKeyedArchiver.archivedData(withRootObject: "\(num)") as NSData
+            self.sendData(data: d)
+            
+//            self.sendData(data: "\(num)".dispatchData)
         }
     }
     
@@ -48,9 +52,9 @@ class ViewController: UIViewController {
     }
     
     /** Sends data to the connected device */
-    func sendData(data: DispatchData) {
+    func sendData(data: NSData) {
         if peerChannel != nil {
-            peerChannel?.sendFrame(ofType: PTFrame.message.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
+            peerChannel?.sendFrame(ofType: PTFrame.message.rawValue, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
                 print(error?.localizedDescription ?? "Sent data")
             })
         }
@@ -79,7 +83,12 @@ extension ViewController: PTChannelDelegate {
         
         // Convert the data to a string
         let data = payload.dispatchData as DispatchData
-        let message = String(bytes: data, encoding: .utf8)
+        
+        let nsData = NSData(contentsOfDispatchData: data as __DispatchData) as Data
+        let message = nsData.convert() as! String
+        
+        
+//        let message = String(bytes: data, encoding: .utf8)
         
         // Update the UI
         self.label.text = message
