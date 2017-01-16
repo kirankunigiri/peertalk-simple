@@ -18,7 +18,20 @@ extension String {
         let dispatchData = data.withUnsafeBytes {
             DispatchData(bytes: UnsafeBufferPointer(start: $0, count: data.count))
         }
+        
         return dispatchData
+    }
+    
+}
+
+extension DispatchData {
+    
+    func toString() -> String {
+        return String(bytes: self, encoding: .utf8)!
+    }
+    
+    func toDictionary() -> NSDictionary {
+        return NSDictionary.init(contentsOfDispatchData: self as __DispatchData)
     }
     
 }
@@ -26,6 +39,7 @@ extension String {
 enum PTFrame: UInt32 {
     case count = 100
     case message = 101
+    case image = 102
 }
 
 
@@ -35,6 +49,10 @@ extension Data {
     /** Unarchive data into an object. It will be returned as type `Any` but you can cast it into the correct type. */
     func convert() -> Any {
         return NSKeyedUnarchiver.unarchiveObject(with: self)!
+    }
+    
+    static func toData(object: Any) -> Data {
+        return NSKeyedArchiver.archivedData(withRootObject: object)
     }
     
 }

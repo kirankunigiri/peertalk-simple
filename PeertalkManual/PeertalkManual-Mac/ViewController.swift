@@ -7,12 +7,15 @@
 //
 
 import Cocoa
+import Quartz
 
 // MARK: - Main Class
 class ViewController: NSViewController {
 
     // MARK: Outlets
     @IBOutlet weak var label: NSTextField!
+    @IBOutlet weak var imageView: NSImageView!
+    @IBOutlet weak var statusLabel: NSTextField!
     
     // MARK: Constants
     
@@ -48,7 +51,6 @@ class ViewController: NSViewController {
     
     
     // MARK: Methods
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,22 +59,45 @@ class ViewController: NSViewController {
         self.enqueueConnectToLocalIPv4Port()
     }
 
-    @IBAction func sendButtonPressed(_ sender: NSButton) {
+    @IBAction func addButtonPressed(_ sender: NSButton) {
         // If we are connected, send data to the device
         if connectedChannel != nil {
             let num = "\(Int(label.stringValue)! + 1)"
             self.label.stringValue = num
-
-            let d = NSKeyedArchiver.archivedData(withRootObject: "\(num)") as NSData
-            self.sendData(data: d)
             
-//            self.sendData(data: "\(num)".dispatchData)
+            let data = "\(num)".dispatchData
+            self.sendData(data: data, type: PTFrame.count)
+        }
+    }
+    
+    @IBAction func imageButtonPressed(_ sender: NSButton) {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedFileTypes = NSImage.imageTypes()
+        let opened = panel.runModal()
+        
+        if opened == NSFileHandlingPanelOKButton {
+            let url = panel.url!
+            let image = NSImage(byReferencing: url)
+            self.imageView.image = image
+            
+            let data = NSData(contentsOf: url)
+            self.sendData(data: data!, type: PTFrame.image)
         }
     }
     
     /** Sends data to the connected iOS device */
-    func sendData(data: NSData) {
-        connectedChannel?.sendFrame(ofType: PTFrame.message.rawValue, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
+    func sendData(data: NSData, type: PTFrame) {
+        connectedChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
+            print(error ?? "Sent")
+        })
+    }
+    
+    /** Sends data to the connected device */
+    func sendData(data: DispatchData, type: PTFrame) {
+        connectedChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
             print(error ?? "Sent")
         })
     }
@@ -86,34 +111,26 @@ extension ViewController: PTChannelDelegate {
     
     // Decide whether or not to accept the frame
     func ioFrameChannel(_ channel: PTChannel!, shouldAcceptFrameOfType type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
-        print("Will accept frame type")
-        // Check if it is of the frame type we want. Otherwise close the channel
-        if type != PTFrame.message.rawValue {
-            channel.close()
-            return false
-        }
+        // Optional: Check the frame type and optionally reject it
         return true
     }
     
     // Receive the frame data
     func ioFrameChannel(_ channel: PTChannel, didReceiveFrameOfType type: UInt32, tag: UInt32, payload: PTData) {
         
-        // If it is of type device info, then convert the data to a dictionary
+        // Creates the data
+        let dispatchData = payload.dispatchData as DispatchData
+        let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
+        
+        // Check frame type
         if type == PTFrame.count.rawValue {
-            var deviceInfo = NSDictionary(contentsOfDispatchData: payload.dispatchData)
-        }
-        // If it is a message, convert the data to a string
-        else if type == PTFrame.message.rawValue {
-            let data = payload.dispatchData as DispatchData
-//            let message = String(bytes: data, encoding: .utf8)!
-            
-            let nsData = NSData(contentsOfDispatchData: data as __DispatchData) as Data
-            let message = nsData.convert() as! String
-            
-            
-            // Update the UI
+            let message = String(bytes: dispatchData, encoding: .utf8)!
             self.label.stringValue = message
+        } else if type == PTFrame.image.rawValue {
+            let image = NSImage(data: data)
+            self.imageView.image = image
         }
+        
         
     }
     
@@ -189,6 +206,7 @@ extension ViewController {
     // Runs when the device disconnects
     func didDisconnect(fromDevice deviceID: NSNumber) {
         print("Disconnected from device")
+        self.statusLabel.stringValue = "Status: Disconnected"
         
         // Notify the class that the device has changed
         if connectedDeviceID.isEqual(to: deviceID) {
@@ -257,6 +275,7 @@ extension ViewController {
                 // Update connected device properties
                 self.connectedDeviceID = self.connectingToDeviceID
                 self.connectedChannel = channel
+                self.statusLabel.stringValue = "Status: Connected"
                 // Check the device properties
                 print(self.connectedDeviceProperties!)
             }
