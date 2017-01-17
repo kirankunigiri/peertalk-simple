@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         // UI Setup
         addButton.layer.cornerRadius = addButton.frame.height/2
         imageButton.layer.cornerRadius = imageButton.frame.height/2
@@ -32,6 +33,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Setup imagge picker
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
@@ -48,18 +50,35 @@ class ViewController: UIViewController {
         
     }
     
+    // Add 1 to our counter label and send the data if the device is connected
     @IBAction func addButtonTapped(_ sender: UIButton) {
-        if peerChannel != nil {
+        if isConnected() {
+            
+            // Get the new counter number
             let num = "\(Int(label.text!)! + 1)"
             self.label.text = num
             
+            // Convert and send the number as dispatch data
             let data = "\(num)".dispatchData
             self.sendData(data: data, type: PTFrame.count)
         }
     }
     
+    // Present the image picker if the device is connected
     @IBAction func imageButtonTapped(_ sender: UIButton) {
-        self.present(imagePicker, animated: true, completion: nil)
+        if isConnected() {
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    /** Checks if the device is connected, and presents an alert view if it is not */
+    func isConnected() -> Bool {
+        if peerChannel == nil {
+            let alert = UIAlertController(title: "Disconnected", message: "Please connect to a device first", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        return peerChannel != nil
     }
     
     
@@ -81,7 +100,7 @@ class ViewController: UIViewController {
     /** Sends data to the connected device */
     func sendData(data: DispatchData, type: PTFrame) {
         if peerChannel != nil {
-            peerChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData! as __DispatchData, callback: { (error) in
+            peerChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
                 print(error?.localizedDescription ?? "Sent data")
             })
         }
@@ -110,13 +129,13 @@ extension ViewController: PTChannelDelegate {
         
         // Creates the data
         let dispatchData = payload.dispatchData as DispatchData
-        let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
         
         // Check frame type
         if type == PTFrame.count.rawValue {
             let message = String(bytes: dispatchData, encoding: .utf8)
             self.label.text = message
         } else if type == PTFrame.image.rawValue {
+            let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
             let image = UIImage(data: data)
             self.imageView.image = image
         }
@@ -137,7 +156,7 @@ extension ViewController: PTChannelDelegate {
         // Update the peer channel and information
         peerChannel = otherChannel
         peerChannel?.userInfo = address
-        print("Connected to channel")
+        print("SUCCESS (Connected to channel)")
         self.statusLabel.text = "Status: Connected"
     }
 }
@@ -146,16 +165,26 @@ extension ViewController: PTChannelDelegate {
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    // Get the image and send it
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            imageView.image = pickedImage
-            let data = UIImageJPEGRepresentation(pickedImage, 1.0)!
+        
+        // Get the picked image
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        // Update our UI on the main thread
+        self.imageView.image = image
+        
+        // Send the data on the background thread to make sure the UI does not freeze
+        DispatchQueue.global(qos: .background).async {
+            let data = UIImageJPEGRepresentation(image, 1.0)!
             self.sendData(data: data as NSData, type: PTFrame.image)
         }
         
+        // Dismiss the image picker
         dismiss(animated: true, completion: nil)
     }
     
+    // Dismiss the view
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }

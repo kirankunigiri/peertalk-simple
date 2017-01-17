@@ -16,6 +16,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var imageView: NSImageView!
     @IBOutlet weak var statusLabel: NSTextField!
+    var panel = NSOpenPanel()
     
     // MARK: Constants
     
@@ -54,14 +55,20 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Setup file chooser
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedFileTypes = NSImage.imageTypes()
+        
         // Start the peertalk service
         self.startListeningForDevices()
         self.enqueueConnectToLocalIPv4Port()
     }
 
+    // Add 1 to our counter label and send the data if the device is connected
     @IBAction func addButtonPressed(_ sender: NSButton) {
-        // If we are connected, send data to the device
-        if connectedChannel != nil {
+        if isConnected() {
             let num = "\(Int(label.stringValue)! + 1)"
             self.label.stringValue = num
             
@@ -70,22 +77,27 @@ class ViewController: NSViewController {
         }
     }
     
+    // Present the image picker if the device is connected
     @IBAction func imageButtonPressed(_ sender: NSButton) {
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = true
-        panel.canChooseDirectories = false
-        panel.allowsMultipleSelection = false
-        panel.allowedFileTypes = NSImage.imageTypes()
-        let opened = panel.runModal()
-        
-        if opened == NSFileHandlingPanelOKButton {
-            let url = panel.url!
-            let image = NSImage(byReferencing: url)
-            self.imageView.image = image
+        if isConnected() {
+            // Show the file chooser panel
+            let opened = panel.runModal()
             
-            let data = NSData(contentsOf: url)
-            self.sendData(data: data!, type: PTFrame.image)
+            // If the user selected an image, update the UI and send the image
+            if opened == NSFileHandlingPanelOKButton {
+                let url = panel.url!
+                let image = NSImage(byReferencing: url)
+                self.imageView.image = image
+                
+                let data = NSData(contentsOf: url)
+                self.sendData(data: data!, type: PTFrame.image)
+            }
         }
+    }
+    
+    /** Whether or not the device is connected */
+    func isConnected() -> Bool {
+        return connectedChannel != nil
     }
     
     /** Sends data to the connected iOS device */
@@ -111,7 +123,7 @@ extension ViewController: PTChannelDelegate {
     
     // Decide whether or not to accept the frame
     func ioFrameChannel(_ channel: PTChannel!, shouldAcceptFrameOfType type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
-        // Optional: Check the frame type and optionally reject it
+        // Optional: Check the frame type and reject specific ones it
         return true
     }
     
@@ -122,7 +134,7 @@ extension ViewController: PTChannelDelegate {
         let dispatchData = payload.dispatchData as DispatchData
         let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
         
-        // Check frame type
+        // Check frame type and get the corresponding data
         if type == PTFrame.count.rawValue {
             let message = String(bytes: dispatchData, encoding: .utf8)!
             self.label.stringValue = message
@@ -259,6 +271,8 @@ extension ViewController {
     }
     
     func connectToUSBDevice() {
+        
+        // Create the new channel
         let channel = PTChannel(delegate: self)
         channel?.userInfo = connectingToDeviceID
         channel?.delegate = self
