@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ManualViewController: UIViewController {
 
     // Outlets
     @IBOutlet weak var label: UILabel!
@@ -16,23 +16,24 @@ class ViewController: UIViewController {
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var statusLabel: UILabel!
-    let imagePicker = UIImagePickerController()
     
     // Properties
     weak var serverChannel: PTChannel?
     weak var peerChannel: PTChannel?
+    let imagePicker = UIImagePickerController()
     
+    
+    // UI Setup
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        // UI Setup
         addButton.layer.cornerRadius = addButton.frame.height/2
         imageButton.layer.cornerRadius = imageButton.frame.height/2
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         // Setup imagge picker
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
@@ -53,14 +54,13 @@ class ViewController: UIViewController {
     // Add 1 to our counter label and send the data if the device is connected
     @IBAction func addButtonTapped(_ sender: UIButton) {
         if isConnected() {
-            
             // Get the new counter number
             let num = "\(Int(label.text!)! + 1)"
             self.label.text = num
             
             // Convert and send the number as dispatch data
             let data = "\(num)".dispatchData
-            self.sendData(data: data, type: PTFrame.count)
+            self.sendData(data: data, type: PTType.count)
         }
     }
     
@@ -89,7 +89,7 @@ class ViewController: UIViewController {
     }
     
     /** Sends data to the connected device */
-    func sendData(data: NSData, type: PTFrame) {
+    func sendData(data: NSData, type: PTType) {
         if peerChannel != nil {
             peerChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
                 print(error?.localizedDescription ?? "Sent data")
@@ -98,7 +98,7 @@ class ViewController: UIViewController {
     }
     
     /** Sends data to the connected device */
-    func sendData(data: DispatchData, type: PTFrame) {
+    func sendData(data: DispatchData, type: PTType) {
         if peerChannel != nil {
             peerChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
                 print(error?.localizedDescription ?? "Sent data")
@@ -111,7 +111,7 @@ class ViewController: UIViewController {
 
 
 // MARK: - Channel Delegate
-extension ViewController: PTChannelDelegate {
+extension ManualViewController: PTChannelDelegate {
     
     func ioFrameChannel(_ channel: PTChannel!, shouldAcceptFrameOfType type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
         
@@ -131,10 +131,10 @@ extension ViewController: PTChannelDelegate {
         let dispatchData = payload.dispatchData as DispatchData
         
         // Check frame type
-        if type == PTFrame.count.rawValue {
+        if type == PTType.count.rawValue {
             let message = String(bytes: dispatchData, encoding: .utf8)
             self.label.text = message
-        } else if type == PTFrame.image.rawValue {
+        } else if type == PTType.image.rawValue {
             let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
             let image = UIImage(data: data)
             self.imageView.image = image
@@ -163,7 +163,8 @@ extension ViewController: PTChannelDelegate {
 
 
 
-extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+// MARK: - Image Picker Delegate
+extension ManualViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // Get the image and send it
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -177,7 +178,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         // Send the data on the background thread to make sure the UI does not freeze
         DispatchQueue.global(qos: .background).async {
             let data = UIImageJPEGRepresentation(image, 1.0)!
-            self.sendData(data: data as NSData, type: PTFrame.image)
+            self.sendData(data: data as NSData, type: PTType.image)
         }
         
         // Dismiss the image picker

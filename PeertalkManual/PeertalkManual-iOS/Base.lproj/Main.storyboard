@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aQJ-VL-WZH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="RYA-5H-mc3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Manual View Controller-->
         <scene sceneID="dkU-bV-86g">
             <objects>
-                <viewController id="aQJ-VL-WZH" customClass="ViewController" customModule="PeertalkManual_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="aQJ-VL-WZH" customClass="ManualViewController" customModule="PeertalkManual_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mJw-Fj-k1W"/>
                         <viewControllerLayoutGuide type="bottom" id="USt-Ob-DlT"/>
@@ -177,10 +177,10 @@
             </objects>
             <point key="canvasLocation" x="831.20000000000005" y="34.632683658170919"/>
         </scene>
-        <!--View Controller-->
+        <!--Simple View Controller-->
         <scene sceneID="ojw-7e-tNN">
             <objects>
-                <viewController id="RYA-5H-mc3" customClass="ViewController" customModule="PeertalkManual_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="RYA-5H-mc3" customClass="SimpleViewController" customModule="PeertalkManual_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="k1V-ua-wa3"/>
                         <viewControllerLayoutGuide type="bottom" id="Zif-yM-aGH"/>
@@ -193,20 +193,20 @@
                                 <rect key="frame" x="-4" y="142" width="383" height="383"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fHk-Cx-2hx">
-                                        <rect key="frame" x="0.0" y="0.0" width="383" height="192"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="383" height="191.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WFo-of-Na9">
-                                                <rect key="frame" x="0.0" y="0.0" width="192" height="192"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="191.5" height="191.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2C4-CH-ygM" userLabel="Button">
-                                                        <rect key="frame" x="25" y="25" width="142" height="142"/>
+                                                        <rect key="frame" x="25" y="25" width="141.5" height="141.5"/>
                                                         <color key="backgroundColor" red="0.16078431369999999" green="0.16078431369999999" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                         <state key="normal" title="Add">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="addButtonTapped:" destination="RYA-5H-mc3" eventType="touchUpInside" id="j0o-df-aBg"/>
+                                                            <action selector="addButtonTapped:" destination="RYA-5H-mc3" eventType="touchUpInside" id="ZRf-ZQ-bKa"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -220,10 +220,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zkL-jJ-ILg">
-                                                <rect key="frame" x="192" y="0.0" width="191" height="192"/>
+                                                <rect key="frame" x="191.5" y="0.0" width="191.5" height="191.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GW3-P4-suf" userLabel="Counter">
-                                                        <rect key="frame" x="77" y="60" width="37" height="72"/>
+                                                        <rect key="frame" x="77.5" y="60" width="37" height="72"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -250,20 +250,20 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pUo-rb-5Np">
-                                        <rect key="frame" x="0.0" y="192" width="383" height="191"/>
+                                        <rect key="frame" x="0.0" y="191.5" width="383" height="191.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pfJ-Nq-nz5">
-                                                <rect key="frame" x="0.0" y="-1" width="192" height="192"/>
+                                                <rect key="frame" x="0.0" y="-0.5" width="191.5" height="191.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="55T-Uw-Yog" userLabel="Button">
-                                                        <rect key="frame" x="25" y="25" width="142" height="142"/>
+                                                        <rect key="frame" x="25" y="25" width="141.5" height="141.5"/>
                                                         <color key="backgroundColor" red="0.16078431369999999" green="0.16078431369999999" blue="0.16078431369999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                         <state key="normal" title="Image">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="imageButtonTapped:" destination="RYA-5H-mc3" eventType="touchUpInside" id="RcL-p0-zxs"/>
+                                                            <action selector="imageButtonTapped:" destination="RYA-5H-mc3" eventType="touchUpInside" id="I6d-WD-fP3"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -277,10 +277,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zat-Lv-hOG">
-                                                <rect key="frame" x="192" y="-1" width="191" height="192"/>
+                                                <rect key="frame" x="191.5" y="-0.5" width="191.5" height="191.5"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="qGc-vf-Zep">
-                                                        <rect key="frame" x="20" y="20" width="151" height="152"/>
+                                                        <rect key="frame" x="20" y="20" width="151.5" height="151.5"/>
                                                     </imageView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -316,7 +316,7 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status: Disconnected" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V3s-Ay-F8Q">
-                                <rect key="frame" x="16" y="626" width="343" height="22"/>
+                                <rect key="frame" x="16" y="625.5" width="343" height="21.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -333,16 +333,16 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="addButton" destination="2C4-CH-ygM" id="IYw-Xz-brp"/>
-                        <outlet property="imageButton" destination="55T-Uw-Yog" id="0gE-v6-DwG"/>
-                        <outlet property="imageView" destination="qGc-vf-Zep" id="F7j-SF-Z7l"/>
-                        <outlet property="label" destination="GW3-P4-suf" id="9lm-AE-e1K"/>
-                        <outlet property="statusLabel" destination="V3s-Ay-F8Q" id="fAa-cV-sBG"/>
+                        <outlet property="addButton" destination="2C4-CH-ygM" id="yxQ-Mx-bv8"/>
+                        <outlet property="imageButton" destination="55T-Uw-Yog" id="Yc5-q9-L17"/>
+                        <outlet property="imageView" destination="qGc-vf-Zep" id="oUj-GI-iTV"/>
+                        <outlet property="label" destination="GW3-P4-suf" id="Nvd-Hw-VHk"/>
+                        <outlet property="statusLabel" destination="V3s-Ay-F8Q" id="rVg-kW-ALs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cih-bW-l4b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1585" y="35"/>
+            <point key="canvasLocation" x="1633" y="35"/>
         </scene>
     </scenes>
     <resources>

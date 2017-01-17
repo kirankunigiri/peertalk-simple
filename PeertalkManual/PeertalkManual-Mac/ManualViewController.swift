@@ -10,7 +10,7 @@ import Cocoa
 import Quartz
 
 // MARK: - Main Class
-class ViewController: NSViewController {
+class ManualViewController: NSViewController {
 
     // MARK: Outlets
     @IBOutlet weak var label: NSTextField!
@@ -73,7 +73,7 @@ class ViewController: NSViewController {
             self.label.stringValue = num
             
             let data = "\(num)".dispatchData
-            self.sendData(data: data, type: PTFrame.count)
+            self.sendData(data: data, type: PTType.count)
         }
     }
     
@@ -90,7 +90,7 @@ class ViewController: NSViewController {
                 self.imageView.image = image
                 
                 let data = NSData(contentsOf: url)
-                self.sendData(data: data!, type: PTFrame.image)
+                self.sendData(data: data!, type: PTType.image)
             }
         }
     }
@@ -101,14 +101,14 @@ class ViewController: NSViewController {
     }
     
     /** Sends data to the connected iOS device */
-    func sendData(data: NSData, type: PTFrame) {
+    func sendData(data: NSData, type: PTType) {
         connectedChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
             print(error ?? "Sent")
         })
     }
     
     /** Sends data to the connected device */
-    func sendData(data: DispatchData, type: PTFrame) {
+    func sendData(data: DispatchData, type: PTType) {
         connectedChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
             print(error ?? "Sent")
         })
@@ -119,7 +119,7 @@ class ViewController: NSViewController {
 
 
 // MARK: - PTChannel Delegate
-extension ViewController: PTChannelDelegate {
+extension ManualViewController: PTChannelDelegate {
     
     // Decide whether or not to accept the frame
     func ioFrameChannel(_ channel: PTChannel!, shouldAcceptFrameOfType type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
@@ -135,10 +135,10 @@ extension ViewController: PTChannelDelegate {
         let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
         
         // Check frame type and get the corresponding data
-        if type == PTFrame.count.rawValue {
+        if type == PTType.count.rawValue {
             let message = String(bytes: dispatchData, encoding: .utf8)!
             self.label.stringValue = message
-        } else if type == PTFrame.image.rawValue {
+        } else if type == PTType.image.rawValue {
             let image = NSImage(data: data)
             self.imageView.image = image
         }
@@ -170,7 +170,7 @@ extension ViewController: PTChannelDelegate {
 
 
 // MARK: - Helper methods
-extension ViewController {
+extension ManualViewController {
     
     func startListeningForDevices() {
         
