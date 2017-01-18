@@ -17,7 +17,7 @@ In the Xcode project, there are 2 targets (for iOS and macOS) with demos of peer
 
 ## Demo
 
- ![Upload](Images/SVUploaderDemo.gif)
+ ![Upload](Images/PeertalkDemo.gif)
 
 ## Installation
 
