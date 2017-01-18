@@ -33,14 +33,14 @@
 
 /* Begin PBXFileReference section */
 		9F57F06D1E2360CD00C5801F /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = "PeertalkManual-Mac/Helper.swift"; sourceTree = "<group>"; };
-		9F91AE1F1E22089E0065410F /* PeertalkManual-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PeertalkManual-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F91AE1F1E22089E0065410F /* PeertalkSimple-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PeertalkSimple-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F91AE211E22089E0065410F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F91AE231E22089E0065410F /* ManualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualViewController.swift; sourceTree = "<group>"; };
 		9F91AE261E22089E0065410F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9F91AE281E22089E0065410F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F91AE2B1E22089E0065410F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F91AE2D1E22089E0065410F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9F91AE351E2208AD0065410F /* PeertalkManual-Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PeertalkManual-Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F91AE351E2208AD0065410F /* PeertalkSimple-Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PeertalkSimple-Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F91AE371E2208AD0065410F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F91AE391E2208AD0065410F /* ManualViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualViewController.swift; sourceTree = "<group>"; };
 		9F91AE3B1E2208AD0065410F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -96,8 +96,8 @@
 		9F91AE071E2208390065410F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9F91AE1F1E22089E0065410F /* PeertalkManual-iOS.app */,
-				9F91AE351E2208AD0065410F /* PeertalkManual-Mac.app */,
+				9F91AE1F1E22089E0065410F /* PeertalkSimple-iOS.app */,
+				9F91AE351E2208AD0065410F /* PeertalkSimple-Mac.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -149,9 +149,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9F91AE1E1E22089E0065410F /* PeertalkManual-iOS */ = {
+		9F91AE1E1E22089E0065410F /* PeertalkSimple-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9F91AE2E1E22089E0065410F /* Build configuration list for PBXNativeTarget "PeertalkManual-iOS" */;
+			buildConfigurationList = 9F91AE2E1E22089E0065410F /* Build configuration list for PBXNativeTarget "PeertalkSimple-iOS" */;
 			buildPhases = (
 				9F91AE1B1E22089E0065410F /* Sources */,
 				9F91AE1C1E22089E0065410F /* Frameworks */,
@@ -161,14 +161,14 @@
 			);
 			dependencies = (
 			);
-			name = "PeertalkManual-iOS";
+			name = "PeertalkSimple-iOS";
 			productName = "PeertalkManual-iOS";
-			productReference = 9F91AE1F1E22089E0065410F /* PeertalkManual-iOS.app */;
+			productReference = 9F91AE1F1E22089E0065410F /* PeertalkSimple-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9F91AE341E2208AD0065410F /* PeertalkManual-Mac */ = {
+		9F91AE341E2208AD0065410F /* PeertalkSimple-Mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9F91AE411E2208AD0065410F /* Build configuration list for PBXNativeTarget "PeertalkManual-Mac" */;
+			buildConfigurationList = 9F91AE411E2208AD0065410F /* Build configuration list for PBXNativeTarget "PeertalkSimple-Mac" */;
 			buildPhases = (
 				9F91AE311E2208AD0065410F /* Sources */,
 				9F91AE321E2208AD0065410F /* Frameworks */,
@@ -178,9 +178,9 @@
 			);
 			dependencies = (
 			);
-			name = "PeertalkManual-Mac";
+			name = "PeertalkSimple-Mac";
 			productName = "PeertalkManual-Mac";
-			productReference = 9F91AE351E2208AD0065410F /* PeertalkManual-Mac.app */;
+			productReference = 9F91AE351E2208AD0065410F /* PeertalkSimple-Mac.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -204,7 +204,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9F91AE011E2208390065410F /* Build configuration list for PBXProject "PeertalkManual" */;
+			buildConfigurationList = 9F91AE011E2208390065410F /* Build configuration list for PBXProject "PeertalkSimple" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -217,8 +217,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9F91AE1E1E22089E0065410F /* PeertalkManual-iOS */,
-				9F91AE341E2208AD0065410F /* PeertalkManual-Mac */,
+				9F91AE1E1E22089E0065410F /* PeertalkSimple-iOS */,
+				9F91AE341E2208AD0065410F /* PeertalkSimple-Mac */,
 			);
 		};
 /* End PBXProject section */
@@ -467,7 +467,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9F91AE011E2208390065410F /* Build configuration list for PBXProject "PeertalkManual" */ = {
+		9F91AE011E2208390065410F /* Build configuration list for PBXProject "PeertalkSimple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F91AE161E2208390065410F /* Debug */,
@@ -476,7 +476,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9F91AE2E1E22089E0065410F /* Build configuration list for PBXNativeTarget "PeertalkManual-iOS" */ = {
+		9F91AE2E1E22089E0065410F /* Build configuration list for PBXNativeTarget "PeertalkSimple-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F91AE2F1E22089E0065410F /* Debug */,
@@ -485,7 +485,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9F91AE411E2208AD0065410F /* Build configuration list for PBXNativeTarget "PeertalkManual-Mac" */ = {
+		9F91AE411E2208AD0065410F /* Build configuration list for PBXNativeTarget "PeertalkSimple-Mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F91AE421E2208AD0065410F /* Debug */,
