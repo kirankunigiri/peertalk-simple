@@ -142,8 +142,8 @@
 				9FC554291E2F51EB001FB545 /* AppDelegate.swift */,
 				9F6A46541E2F52BE00F35510 /* ManualViewController.swift */,
 				9F6A46551E2F52BE00F35510 /* SimpleViewController.swift */,
-				9FC5542D1E2F51EB001FB545 /* Assets.xcassets */,
 				9FC5542F1E2F51EB001FB545 /* Main.storyboard */,
+				9FC5542D1E2F51EB001FB545 /* Assets.xcassets */,
 				9FC554321E2F51EB001FB545 /* Info.plist */,
 			);
 			path = PTSimpleMac;

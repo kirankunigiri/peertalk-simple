@@ -1,6 +1,6 @@
 //
 //  SimpleViewController.swift
-//  PeertalkManual
+//  ptManagerManual
 //
 //  Created by Kiran Kunigiri on 1/16/17.
 //  Copyright © 2017 Kiran. All rights reserved.
@@ -16,15 +16,15 @@ class SimpleViewController: NSViewController {
     @IBOutlet weak var statusLabel: NSTextField!
     
     // MARK: - Properties
-    let peertalk = PTManager()
+    let ptManager = PTManager()
     var panel = NSOpenPanel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Setup Peertalk
-        peertalk.delegate = self
-        peertalk.connect(portNumber: PORT_NUMBER)
+        // Setup the PTManager
+        ptManager.delegate = self
+        ptManager.connect(portNumber: PORT_NUMBER)
         
         // Setup file chooser
         panel.canChooseFiles = true
@@ -35,16 +35,16 @@ class SimpleViewController: NSViewController {
     
     
     @IBAction func addButtonTapped(_ sender: Any) {
-        if peertalk.isConnected {
+        if ptManager.isConnected {
             let num = Int(label.stringValue)! + 1
             self.label.stringValue = "\(num)"
-            peertalk.sendObject(object: num, type: PTType.count.rawValue)
+            ptManager.sendObject(object: num, type: PTType.count.rawValue)
         }
     }
     
     
     @IBAction func imageButtonTapped(_ sender: Any) {
-        if peertalk.isConnected {
+        if ptManager.isConnected {
             // Show the file chooser panel
             let opened = panel.runModal()
             
@@ -55,7 +55,7 @@ class SimpleViewController: NSViewController {
                 self.imageView.image = image
                 
                 let data = NSData(contentsOf: url)
-                peertalk.sendData(data: data as Data!, type: PTType.image.rawValue)
+                ptManager.sendData(data: data as Data!, type: PTType.image.rawValue)
             }
         }
     }

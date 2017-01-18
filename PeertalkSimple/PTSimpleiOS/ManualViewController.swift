@@ -36,6 +36,9 @@ class ManualViewController: UIViewController {
         
         // Create a channel and start listening
         let channel = PTChannel(delegate: self)
+        
+        // Create a custom port number that the connection will use. I have declared it in the Helper.swift file
+        // Make sure the Mac app uses the same number. Any 4 digit integer will work fine.
         channel?.listen(onPort: in_port_t(PORT_NUMBER), iPv4Address: INADDR_LOOPBACK, callback: { (error) in
             if error != nil {
                 print("ERROR (Listening to post): \(error?.localizedDescription)")

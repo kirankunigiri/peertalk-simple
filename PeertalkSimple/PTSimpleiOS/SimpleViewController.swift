@@ -1,6 +1,6 @@
 //
 //  PTSimpleViewController.swift
-//  PeertalkManual
+//  ptManagerManual
 //
 //  Created by Kiran Kunigiri on 1/16/17.
 //  Copyright © 2017 Kiran. All rights reserved.
@@ -18,7 +18,7 @@ class SimpleViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     
     // Properties
-    let peertalk = PTManager()
+    let ptManager = PTManager()
     let imagePicker = UIImagePickerController()
     
     // UI Setup
@@ -32,9 +32,9 @@ class SimpleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Setup peertalk
-        peertalk.delegate = self
-        peertalk.connect(portNumber: PORT_NUMBER)
+        // Setup the PTManager
+        ptManager.delegate = self
+        ptManager.connect(portNumber: PORT_NUMBER)
         
         // Setup imagge picker
         imagePicker.delegate = self
@@ -43,17 +43,17 @@ class SimpleViewController: UIViewController {
     }
 
     @IBAction func addButtonTapped(_ sender: UIButton) {
-        if peertalk.isConnected {
+        if ptManager.isConnected {
             let num = Int(label.text!)! + 1
             self.label.text = "\(num)"
-            peertalk.sendObject(object: num, type: PTType.count.rawValue)
+            ptManager.sendObject(object: num, type: PTType.count.rawValue)
         } else {
             showAlert()
         }
     }
     
     @IBAction func imageButtonTapped(_ sender: UIButton) {
-        if peertalk.isConnected {
+        if ptManager.isConnected {
             self.present(imagePicker, animated: true, completion: nil)
         } else {
             showAlert()
@@ -107,7 +107,7 @@ extension SimpleViewController: UIImagePickerControllerDelegate, UINavigationCon
         // Send the data on the background thread to make sure the UI does not freeze
         DispatchQueue.global(qos: .background).async {
             let data = UIImageJPEGRepresentation(image, 1.0)!
-            self.peertalk.sendData(data: data, type: PTType.image.rawValue, completion: nil)
+            self.ptManager.sendData(data: data, type: PTType.image.rawValue, completion: nil)
         }
         
         // Dismiss the image picker
