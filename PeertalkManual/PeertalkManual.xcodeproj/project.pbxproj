@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9F4F28DA1E2E0BD2001A749E /* PTFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE5C761E2DF25A0081D219 /* PTFacade.swift */; };
+		9F4F28DA1E2E0BD2001A749E /* PTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE5C761E2DF25A0081D219 /* PTManager.swift */; };
 		9F57F06E1E2360CD00C5801F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F57F06D1E2360CD00C5801F /* Helper.swift */; };
 		9F57F06F1E2360E200C5801F /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F57F06D1E2360CD00C5801F /* Helper.swift */; };
 		9F57F0721E23644E00C5801F /* PTUSBHub.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F91AE4F1E2208EF0065410F /* PTUSBHub.m */; };
@@ -27,7 +27,7 @@
 		9F91AE3F1E2208AD0065410F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F91AE3D1E2208AD0065410F /* Main.storyboard */; };
 		9F91AE511E2208EF0065410F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F91AE451E2208EF0065410F /* Info.plist */; };
 		9FEE5C751E2DF1ED0081D219 /* SimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE5C741E2DF1ED0081D219 /* SimpleViewController.swift */; };
-		9FEE5C781E2DF25A0081D219 /* PTFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE5C761E2DF25A0081D219 /* PTFacade.swift */; };
+		9FEE5C781E2DF25A0081D219 /* PTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE5C761E2DF25A0081D219 /* PTManager.swift */; };
 		9FEE5C7C1E2E05DC0081D219 /* SimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEE5C791E2E05DC0081D219 /* SimpleViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +58,7 @@
 		9F91AE4F1E2208EF0065410F /* PTUSBHub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTUSBHub.m; sourceTree = "<group>"; };
 		9F91AE501E2208EF0065410F /* PeertalkManual-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PeertalkManual-Bridging-Header.h"; sourceTree = "<group>"; };
 		9FEE5C741E2DF1ED0081D219 /* SimpleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleViewController.swift; sourceTree = "<group>"; };
-		9FEE5C761E2DF25A0081D219 /* PTFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PTFacade.swift; sourceTree = "<group>"; };
+		9FEE5C761E2DF25A0081D219 /* PTManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PTManager.swift; sourceTree = "<group>"; };
 		9FEE5C791E2E05DC0081D219 /* SimpleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +86,7 @@
 				9F91AE441E2208EF0065410F /* peertalk */,
 				9F91AE501E2208EF0065410F /* PeertalkManual-Bridging-Header.h */,
 				9F57F06D1E2360CD00C5801F /* Helper.swift */,
-				9FEE5C761E2DF25A0081D219 /* PTFacade.swift */,
+				9FEE5C761E2DF25A0081D219 /* PTManager.swift */,
 				9F91AE201E22089E0065410F /* PeertalkManual-iOS */,
 				9F91AE361E2208AD0065410F /* PeertalkManual-Mac */,
 				9F91AE071E2208390065410F /* Products */,
@@ -255,7 +255,7 @@
 				9F57F0761E23645E00C5801F /* PTChannel.m in Sources */,
 				9F91AE221E22089E0065410F /* AppDelegate.swift in Sources */,
 				9F57F0721E23644E00C5801F /* PTUSBHub.m in Sources */,
-				9F4F28DA1E2E0BD2001A749E /* PTFacade.swift in Sources */,
+				9F4F28DA1E2E0BD2001A749E /* PTManager.swift in Sources */,
 				9F57F06F1E2360E200C5801F /* Helper.swift in Sources */,
 				9FEE5C751E2DF1ED0081D219 /* SimpleViewController.swift in Sources */,
 				9F57F0741E23645500C5801F /* PTProtocol.m in Sources */,
@@ -266,7 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FEE5C781E2DF25A0081D219 /* PTFacade.swift in Sources */,
+				9FEE5C781E2DF25A0081D219 /* PTManager.swift in Sources */,
 				9F91AE3A1E2208AD0065410F /* ManualViewController.swift in Sources */,
 				9F57F0771E23645E00C5801F /* PTChannel.m in Sources */,
 				9F91AE381E2208AD0065410F /* AppDelegate.swift in Sources */,

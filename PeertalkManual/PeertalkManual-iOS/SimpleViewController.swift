@@ -18,7 +18,7 @@ class SimpleViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     
     // Properties
-    let peertalk = PTFacade()
+    let peertalk = PTManager()
     let imagePicker = UIImagePickerController()
     
     // UI Setup
@@ -39,7 +39,7 @@ class SimpleViewController: UIViewController {
         
         // Setup peertalk
         peertalk.delegate = self
-        peertalk.connect()
+        peertalk.connect(portNumber: PORT_NUMBER)
     }
 
     @IBAction func addButtonTapped(_ sender: UIButton) {
@@ -69,7 +69,7 @@ class SimpleViewController: UIViewController {
 
 
 
-extension SimpleViewController: PTFacadeDelegate {
+extension SimpleViewController: PTManagerDelegate {
     
     func shouldAcceptDataOfType(type: UInt32) -> Bool {
         return true
@@ -80,7 +80,7 @@ extension SimpleViewController: PTFacadeDelegate {
             let count = data.convert() as! Int
             self.label.text = "\(count)"
         } else if type == PTType.image.rawValue {
-            let image = UIImage(data: data)
+            let image = UIImage(data: data) 
             self.imageView.image = image
         }
     }

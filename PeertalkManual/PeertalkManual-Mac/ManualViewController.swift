@@ -72,8 +72,8 @@ class ManualViewController: NSViewController {
             let num = "\(Int(label.stringValue)! + 1)"
             self.label.stringValue = num
             
-            let data = "\(num)".dispatchData
-            self.sendData(data: data, type: PTType.count)
+            let data = NSKeyedArchiver.archivedData(withRootObject: "\(num)") as NSData
+            self.sendData(data: data.createReferencingDispatchData(), type: PTType.count)
         }
     }
     
@@ -89,8 +89,8 @@ class ManualViewController: NSViewController {
                 let image = NSImage(byReferencing: url)
                 self.imageView.image = image
                 
-                let data = NSData(contentsOf: url)
-                self.sendData(data: data!, type: PTType.image)
+                let data = NSData(contentsOf: url)!
+                self.sendData(data: data.createReferencingDispatchData(), type: PTType.image)
             }
         }
     }
@@ -100,15 +100,8 @@ class ManualViewController: NSViewController {
         return connectedChannel != nil
     }
     
-    /** Sends data to the connected iOS device */
-    func sendData(data: NSData, type: PTType) {
-        connectedChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
-            print(error ?? "Sent")
-        })
-    }
-    
     /** Sends data to the connected device */
-    func sendData(data: DispatchData, type: PTType) {
+    func sendData(data: __DispatchData, type: PTType) {
         connectedChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
             print(error ?? "Sent")
         })
@@ -136,8 +129,8 @@ extension ManualViewController: PTChannelDelegate {
         
         // Check frame type and get the corresponding data
         if type == PTType.count.rawValue {
-            let message = String(bytes: dispatchData, encoding: .utf8)!
-            self.label.stringValue = message
+            let count = NSKeyedUnarchiver.unarchiveObject(with: data) as! String
+            self.label.stringValue = count
         } else if type == PTType.image.rawValue {
             let image = NSImage(data: data)
             self.imageView.image = image

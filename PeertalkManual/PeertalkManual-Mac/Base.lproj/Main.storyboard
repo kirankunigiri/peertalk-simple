@@ -673,7 +673,7 @@
                         <value key="maxSize" type="size" width="400" height="400"/>
                     </window>
                     <connections>
-                        <segue destination="6Zx-xU-vGP" kind="relationship" relationship="window.shadowedContentViewController" id="U5Y-gc-vnD"/>
+                        <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="WPU-Mz-Mij"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

@@ -16,7 +16,7 @@ class SimpleViewController: NSViewController {
     @IBOutlet weak var statusLabel: NSTextField!
     
     // MARK: - Properties
-    let peertalk = PTFacade()
+    let peertalk = PTManager()
     var panel = NSOpenPanel()
     
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class SimpleViewController: NSViewController {
         
         // Setup Peertalk
         peertalk.delegate = self
-        peertalk.connect()
+        peertalk.connect(portNumber: PORT_NUMBER)
     }
     
     
@@ -58,7 +58,7 @@ class SimpleViewController: NSViewController {
 
 
 
-extension SimpleViewController: PTFacadeDelegate {
+extension SimpleViewController: PTManagerDelegate {
     
     func shouldAcceptDataOfType(type: UInt32) -> Bool {
         return true

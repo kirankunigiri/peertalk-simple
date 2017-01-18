@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - Delegate
-protocol PTFacadeDelegate {
+protocol PTManagerDelegate {
     
     /** Return whether or not you want to accept the specified data type */
     func shouldAcceptDataOfType(type: UInt32) -> Bool
@@ -25,20 +25,24 @@ protocol PTFacadeDelegate {
 #if os(iOS)
 // MARK: - iOS
     
-    class PTFacade: NSObject {
+    class PTManager: NSObject {
         
         // MARK: Properties
-        var delegate: PTFacadeDelegate?
+        var delegate: PTManagerDelegate?
+        var portNumber: Int?
         
         weak var serverChannel: PTChannel?
         weak var peerChannel: PTChannel?
         
+        
+        
         // MARK: Methods
         
         /** Begins to look for a device and connects when it finds one */
-        func connect() {
+        func connect(portNumber: Int) {
+            self.portNumber = portNumber
             let channel = PTChannel(delegate: self)
-            channel?.listen(onPort: in_port_t(PORT_NUMBER), iPv4Address: INADDR_LOOPBACK, callback: { (error) in
+            channel?.listen(onPort: in_port_t(portNumber), iPv4Address: INADDR_LOOPBACK, callback: { (error) in
                 if error == nil {
                     self.serverChannel = channel
                 }
@@ -96,7 +100,7 @@ protocol PTFacadeDelegate {
     
     
     // MARK: - Channel Delegate
-    extension PTFacade: PTChannelDelegate {
+    extension PTManager: PTChannelDelegate {
         
         func ioFrameChannel(_ channel: PTChannel!, shouldAcceptFrameOfType type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
             // Check if the channel is our connected channel; otherwise ignore it
@@ -146,10 +150,11 @@ protocol PTFacadeDelegate {
 #elseif os(OSX)
 // MARK: - OS X
     
-    class PTFacade: NSObject {
+    class PTManager: NSObject {
         
         // MARK: Properties
-        var delegate: PTFacadeDelegate?
+        var delegate: PTManagerDelegate?
+        var portNumber: Int?
         
         var connectingToDeviceID: NSNumber!
         var connectedDeviceID: NSNumber!
@@ -185,7 +190,8 @@ protocol PTFacadeDelegate {
         // MARK: Methods
         
         /** Begins to look for a device and connects when it finds one */
-        func connect() {
+        func connect(portNumber: Int) {
+            self.portNumber = portNumber
             self.startListeningForDevices()
             self.enqueueConnectToLocalIPv4Port()
         }
@@ -202,9 +208,9 @@ protocol PTFacadeDelegate {
         
         /** Sends data to the connected device */
         func sendObject(object: Any, type: UInt32, completion: ((_ success: Bool) -> Void)? = nil) {
-            let data = Data.toData(object: object)
+            let data = Data.toData(object: object) as NSData
             if connectedChannel != nil {
-                connectedChannel?.sendFrame(ofType: type, tag: PTFrameNoTag, withPayload: (data as NSData).createReferencingDispatchData(), callback: { (error) in
+                connectedChannel?.sendFrame(ofType: type, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
                     completion?(true)
                 })
             } else {
@@ -214,8 +220,9 @@ protocol PTFacadeDelegate {
         
         /** Sends data to the connected device */
         func sendData(data: Data, type: UInt32, completion: ((_ success: Bool) -> Void)? = nil) {
+            let data = data as NSData
             if connectedChannel != nil {
-                connectedChannel?.sendFrame(ofType: type, tag: PTFrameNoTag, withPayload: (data as NSData).createReferencingDispatchData(), callback: { (error) in
+                connectedChannel?.sendFrame(ofType: type, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
                     completion?(true)
                 })
             } else {
@@ -241,7 +248,7 @@ protocol PTFacadeDelegate {
         
         
         // MARK: - Channel Delegate
-        extension PTFacade: PTChannelDelegate {
+        extension PTManager: PTChannelDelegate {
             
             // Decide whether or not to accept the frame
             func ioFrameChannel(_ channel: PTChannel!, shouldAcceptFrameOfType type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
@@ -277,7 +284,7 @@ protocol PTFacadeDelegate {
         
         
         // MARK: - Helper methods
-        extension PTFacade {
+        extension PTManager {
             
             func startListeningForDevices() {
                 
@@ -353,9 +360,9 @@ protocol PTFacadeDelegate {
             
             func connectToLocalIPv4Port() {
                 let channel = PTChannel(delegate: self)
-                channel?.userInfo = "127.0.0.1:\(PORT_NUMBER)"
+                channel?.userInfo = "127.0.0.1:\(portNumber)"
                 
-                channel?.connect(toPort: in_port_t(PORT_NUMBER), iPv4Address: INADDR_LOOPBACK, callback: { (error, address) in
+                channel?.connect(toPort: in_port_t(portNumber!), iPv4Address: INADDR_LOOPBACK, callback: { (error, address) in
                     if error == nil {
                         // Update to new channel
                         self.disconnectFromCurrentChannel()
@@ -385,7 +392,7 @@ protocol PTFacadeDelegate {
                 channel?.delegate = self
                 
                 // Connect to the device
-                channel?.connect(toPort: Int32(PORT_NUMBER), overUSBHub: PTUSBHub.shared(), deviceID: connectingToDeviceID, callback: { (error) in
+                channel?.connect(toPort: Int32(portNumber!), overUSBHub: PTUSBHub.shared(), deviceID: connectingToDeviceID, callback: { (error) in
                     if error != nil {
                         print(error!)
                         // Reconnet to the device
@@ -406,8 +413,6 @@ protocol PTFacadeDelegate {
         }
     
     
-    
-    
 #endif
 
 
@@ -422,10 +427,13 @@ extension Data {
         return NSKeyedUnarchiver.unarchiveObject(with: self)!
     }
     
+    /** Converts an object into Data using the NSKeyedArchiver */
     static func toData(object: Any) -> Data {
         return NSKeyedArchiver.archivedData(withRootObject: object)
     }
     
 }
+
+
 
 

@@ -26,16 +26,19 @@ extension String {
 
 extension DispatchData {
     
+    /** Converts DispatchData back into a String format */
     func toString() -> String {
         return String(bytes: self, encoding: .utf8)!
     }
-    
+
+    /** Converts DispatchData back into a Dictionary format */
     func toDictionary() -> NSDictionary {
         return NSDictionary.init(contentsOfDispatchData: self as __DispatchData)
     }
     
 }
 
+/** The different types of data to be used with Peertalk */
 enum PTType: UInt32 {
     case count = 100
     case image = 101

@@ -58,9 +58,27 @@ class ManualViewController: UIViewController {
             let num = "\(Int(label.text!)! + 1)"
             self.label.text = num
             
-            // Convert and send the number as dispatch data
-            let data = "\(num)".dispatchData
-            self.sendData(data: data, type: PTType.count)
+            // Here, you can create data in two different ways
+            // For convenience, I describe both methods in this (iOS) demo, and not in the mac demo (because it's the same)
+            // Check out the Helper.swift and the bottom of the PTManager.swift for class extensions that can speed this up
+            
+            // The first way is to directly create DispatchData from your object. This method is different for each object type.
+            // The following, for example, is how to convert Strings
+            // WARNING: DispatchData created this way is NOT compatible with DispatchData created using the second method. Always only use one or the other
+            
+            // let data = "\(num)".data(using: .utf8)!
+            // let dispatchData = data.withUnsafeBytes {
+            //     DispatchData(bytes: UnsafeBufferPointer(start: $0, count: data.count))
+            // }
+            // let final = dispatchData as __DispatchData
+            
+            
+            // There is, however, a simpler universal way that works for all object types. 
+            // First, we convert the String to data using the NSKeyedArchiver class and then casting it to NSData
+            // Next, we can convert it to DispatchData by using the createReferencingDispatchData method (it's only available in the NSData class, which is why we casted it)
+            
+            let data = NSKeyedArchiver.archivedData(withRootObject: "\(num)") as NSData
+            self.sendData(data: data.createReferencingDispatchData(), type: PTType.count)
         }
     }
     
@@ -89,18 +107,9 @@ class ManualViewController: UIViewController {
     }
     
     /** Sends data to the connected device */
-    func sendData(data: NSData, type: PTType) {
+    func sendData(data: __DispatchData, type: PTType) {
         if peerChannel != nil {
-            peerChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data.createReferencingDispatchData(), callback: { (error) in
-                print(error?.localizedDescription ?? "Sent data")
-            })
-        }
-    }
-    
-    /** Sends data to the connected device */
-    func sendData(data: DispatchData, type: PTType) {
-        if peerChannel != nil {
-            peerChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data as __DispatchData!, callback: { (error) in
+            peerChannel?.sendFrame(ofType: type.rawValue, tag: PTFrameNoTag, withPayload: data, callback: { (error) in
                 print(error?.localizedDescription ?? "Sent data")
             })
         }
@@ -127,17 +136,28 @@ extension ManualViewController: PTChannelDelegate {
     
     func ioFrameChannel(_ channel: PTChannel!, didReceiveFrameOfType type: UInt32, tag: UInt32, payload: PTData!) {
         
-        // Creates the data
+        // Create the data objects
         let dispatchData = payload.dispatchData as DispatchData
+        let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
         
         // Check frame type
         if type == PTType.count.rawValue {
-            let message = String(bytes: dispatchData, encoding: .utf8)
-            self.label.text = message
+            
+            // The first conversion method of DispatchData (explained in the addButtonTapped method)
+            // let message = String(bytes: dispatchData, encoding: .utf8)
+            
+            // The second, universal method of conversion (Using NSKeyedUnarchiver)
+            let count = NSKeyedUnarchiver.unarchiveObject(with: data) as! String
+            
+            // Update the UI
+            self.label.text = count
+            
         } else if type == PTType.image.rawValue {
-            let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
+            
+            // Conver the image and update the UI
             let image = UIImage(data: data)
             self.imageView.image = image
+            
         }
     }
     
@@ -177,8 +197,10 @@ extension ManualViewController: UIImagePickerControllerDelegate, UINavigationCon
         
         // Send the data on the background thread to make sure the UI does not freeze
         DispatchQueue.global(qos: .background).async {
+            // Convert the data using the second universal method
             let data = UIImageJPEGRepresentation(image, 1.0)!
-            self.sendData(data: data as NSData, type: PTType.image)
+            let dispatchData = (data as NSData).createReferencingDispatchData()!
+            self.sendData(data: dispatchData, type: PTType.image)
         }
         
         // Dismiss the image picker
