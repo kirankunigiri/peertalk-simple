@@ -8,30 +8,32 @@
 
 import Foundation
 
+// MARK: - Delegate
+protocol PTFacadeDelegate {
+    
+    /** Return whether or not you want to accept the specified data type */
+    func shouldAcceptDataOfType(type: UInt32) -> Bool
+    
+    /** Runs when the device has received data */
+    func didReceiveDataOfType(type: UInt32, data: Data)
+    
+    /** Runs when the connection has changed */
+    func connectionDidChange(connected: Bool)
+    
+}
 
 #if os(iOS)
 // MARK: - iOS
     
-    protocol PTFacadeDelegate {
-        
-        /** Return whether or not you want to accept the specified data type */
-        func shouldAcceptDataOfType(type: UInt32) -> Bool
-        
-        /** Runs when the device has received data */
-        func didReceiveDataOfType(type: UInt32, data: Data)
-        
-        /** Runs when the connection has changed */
-        func connectionDidChange(connected: Bool)
-        
-    }
-    
     class PTFacade: NSObject {
         
-        // Properties
+        // MARK: Properties
         var delegate: PTFacadeDelegate?
         
         weak var serverChannel: PTChannel?
         weak var peerChannel: PTChannel?
+        
+        // MARK: Methods
         
         /** Begins to look for a device and connects when it finds one */
         func connect() {
@@ -53,7 +55,9 @@ import Foundation
             self.serverChannel?.close()
         }
         
-        /** Sends data to the connected device */
+        /** Sends data to the connected device 
+         * Uses NSKeyedArchiver to convert the object to data
+         */
         func sendObject(object: Any, type: UInt32, completion: ((_ success: Bool) -> Void)? = nil) {
             let data = Data.toData(object: object)
             if peerChannel != nil {
@@ -142,19 +146,6 @@ import Foundation
 #elseif os(OSX)
 // MARK: - OS X
     
-    protocol PTFacadeDelegate {
-        
-        /** Return whether or not you want to accept the specified data type */
-        func shouldAcceptDataOfType(type: UInt32) -> Bool
-        
-        /** Runs when the device has received data */
-        func didReceiveDataOfType(type: UInt32, data: Data)
-        
-        /** Runs when the connection has changed */
-        func connectionDidChange(connected: Bool)
-        
-    }
-    
     class PTFacade: NSObject {
         
         // MARK: Properties
@@ -188,6 +179,10 @@ import Foundation
                 }
             }
         }
+        
+        
+        
+        // MARK: Methods
         
         /** Begins to look for a device and connects when it finds one */
         func connect() {
@@ -245,7 +240,7 @@ import Foundation
         
         
         
-        // MARK: - PTChannel Delegate
+        // MARK: - Channel Delegate
         extension PTFacade: PTChannelDelegate {
             
             // Decide whether or not to accept the frame
