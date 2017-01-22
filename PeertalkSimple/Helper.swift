@@ -10,6 +10,14 @@ import Foundation
 
 let PORT_NUMBER = 2345
 
+class Helper {
+    
+    static let ptManager = PTManager()
+    
+    static func initialize() {}
+    
+}
+
 extension String {
     
     /** A representation of the string in DispatchData form */
@@ -40,6 +48,6 @@ extension DispatchData {
 
 /** The different types of data to be used with Peertalk */
 enum PTType: UInt32 {
-    case count = 100
+    case number = 100
     case image = 101
 }

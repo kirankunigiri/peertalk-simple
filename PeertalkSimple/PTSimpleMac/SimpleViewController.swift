@@ -38,7 +38,7 @@ class SimpleViewController: NSViewController {
         if ptManager.isConnected {
             let num = Int(label.stringValue)! + 1
             self.label.stringValue = "\(num)"
-            ptManager.sendObject(object: num, type: PTType.count.rawValue)
+            ptManager.sendObject(object: num, type: PTType.number.rawValue)
         }
     }
     
@@ -71,7 +71,7 @@ extension SimpleViewController: PTManagerDelegate {
     }
     
     func didReceiveDataOfType(type: UInt32, data: Data) {
-        if type == PTType.count.rawValue {
+        if type == PTType.number.rawValue {
             let count = data.convert() as! Int
             self.label.stringValue = "\(count)"
         } else if type == PTType.image.rawValue {

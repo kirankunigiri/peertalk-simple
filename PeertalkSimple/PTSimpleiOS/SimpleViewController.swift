@@ -18,7 +18,7 @@ class SimpleViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     
     // Properties
-    let ptManager = PTManager()
+    let ptManager = Helper.ptManager
     let imagePicker = UIImagePickerController()
     
     // UI Setup
@@ -46,7 +46,7 @@ class SimpleViewController: UIViewController {
         if ptManager.isConnected {
             let num = Int(label.text!)! + 1
             self.label.text = "\(num)"
-            ptManager.sendObject(object: num, type: PTType.count.rawValue)
+            ptManager.sendObject(object: num, type: PTType.number.rawValue)
         } else {
             showAlert()
         }
@@ -76,7 +76,7 @@ extension SimpleViewController: PTManagerDelegate {
     }
     
     func didReceiveDataOfType(type: UInt32, data: Data) {
-        if type == PTType.count.rawValue {
+        if type == PTType.number.rawValue {
             let count = data.convert() as! Int
             self.label.text = "\(count)"
         } else if type == PTType.image.rawValue {
@@ -86,6 +86,7 @@ extension SimpleViewController: PTManagerDelegate {
     }
     
     func connectionDidChange(connected: Bool) {
+        print("Connection: \(connected)")
         self.statusLabel.text = connected ? "Connected" : "Disconnected"
     }
     

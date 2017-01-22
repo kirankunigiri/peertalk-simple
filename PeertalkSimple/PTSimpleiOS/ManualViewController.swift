@@ -79,8 +79,8 @@ class ManualViewController: UIViewController {
             // First, we convert the String to data using the NSKeyedArchiver class and then casting it to NSData
             // Next, we can convert it to DispatchData by using the createReferencingDispatchData method (it's only available in the NSData class, which is why we casted it)
             
-            let data = NSKeyedArchiver.archivedData(withRootObject: "\(num)") as NSData
-            self.sendData(data: data.createReferencingDispatchData(), type: PTType.count)
+            let data = NSKeyedArchiver.archivedData(withRootObject: num) as NSData
+            self.sendData(data: data.createReferencingDispatchData(), type: PTType.number)
         }
     }
     
@@ -143,16 +143,16 @@ extension ManualViewController: PTChannelDelegate {
         let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
         
         // Check frame type
-        if type == PTType.count.rawValue {
+        if type == PTType.number.rawValue {
             
             // The first conversion method of DispatchData (explained in the addButtonTapped method)
             // let message = String(bytes: dispatchData, encoding: .utf8)
             
             // The second, universal method of conversion (Using NSKeyedUnarchiver)
-            let count = NSKeyedUnarchiver.unarchiveObject(with: data) as! String
+            let count = NSKeyedUnarchiver.unarchiveObject(with: data) as! Int
             
             // Update the UI
-            self.label.text = count
+            self.label.text = "\(count)"
             
         } else if type == PTType.image.rawValue {
             

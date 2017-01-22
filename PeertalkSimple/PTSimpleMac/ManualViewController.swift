@@ -69,11 +69,11 @@ class ManualViewController: NSViewController {
     // Add 1 to our counter label and send the data if the device is connected
     @IBAction func addButtonPressed(_ sender: NSButton) {
         if isConnected() {
-            let num = "\(Int(label.stringValue)! + 1)"
-            self.label.stringValue = num
+            let num = Int(label.stringValue)! + 1
+            self.label.stringValue = "\(num)"
             
-            let data = NSKeyedArchiver.archivedData(withRootObject: "\(num)") as NSData
-            self.sendData(data: data.createReferencingDispatchData(), type: PTType.count)
+            let data = NSKeyedArchiver.archivedData(withRootObject: num) as NSData
+            self.sendData(data: data.createReferencingDispatchData(), type: PTType.number)
         }
     }
     
@@ -128,9 +128,9 @@ extension ManualViewController: PTChannelDelegate {
         let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
         
         // Check frame type and get the corresponding data
-        if type == PTType.count.rawValue {
-            let count = NSKeyedUnarchiver.unarchiveObject(with: data) as! String
-            self.label.stringValue = count
+        if type == PTType.number.rawValue {
+            let count = NSKeyedUnarchiver.unarchiveObject(with: data) as! Int
+            self.label.stringValue = "\(count)"
         } else if type == PTType.image.rawValue {
             let image = NSImage(data: data)
             self.imageView.image = image

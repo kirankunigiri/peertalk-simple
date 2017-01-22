@@ -2,7 +2,7 @@
 ![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 ![License MIT](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
-This library simplifies [peertalk](https://github.com/rsms/peertalk) by rsms, and allows for simplified communication between iOS and Mac devices via USB. This project contains 2 things.
+This library simplifies [peertalk](https://github.com/rsms/peertalk) by Rasmus, and allows for simplified communication between iOS and Mac devices via USB. This project contains 2 things.
 
 - A **detailed tutorial** on how to use peertalk
   - Lengthy and complex
@@ -66,7 +66,7 @@ ptManager.sendObject(object: "Hello World", type: PTType.string.rawValue)
 
 Let's receive data now! We just need to conform to the PTManagerDelegate protocol.
 
-The other methods give you other information about your devices and data, but the `didReceiveDataOfType` method is where you can actually receive and use data. Here, I check the type of the data using our enum, and convert it to the corresponding object!
+The other methods give you other information about your devices and data, but the `didReceiveDataOfType` method is where you can actually receive and use data. Here, I check the type of the data using our enum, and convert it to the corresponding object! PTManager uses the NSKeyedArchiver class to convert objects to data, so I've added an extension to the Data class - the method `convert()` - that you can use to return it to the specified type.
 
 ```swift
 
