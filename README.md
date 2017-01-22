@@ -29,18 +29,19 @@ PTManager is a facade class that manages all the different peertalk components s
 
 #### Setup
 
-To begin, let's create a PTManager object, and also create a port number. The port number can be any 4 digit integer, and the Mac app must use the same one to connect.
+To begin, let's setup the PTManager singleton instance by setting the delegate and starting the connection with a port number. The port number can be any 4 digit integer, and the Mac app must use the same one to connect.
 
 ```swift
-let ptManager = PTManager()
-let PORT_NUMBER 2345
+PTManager.instance.delegate = self
+PTManager.instance.connect(portNumber: 2345)
 ```
 
-Next, let's set the delegate and start the connection with the specified port number.
+Next, we also need to run a method in the App Delegate when the app restarts because peertalk automatically disconnects when the iPhone is put to sleep.
 
 ```swift
-ptManager.delegate = self
-ptManager.connect(portNumber: PORT_NUMBER)
+func applicationDidBecomeActive(_ application: UIApplication) {
+    PTManager.instance.connect(portNumber: 2345)
+}
 ```
 
 #### Send Data
@@ -79,7 +80,7 @@ func shouldAcceptDataOfType(type: UInt32) -> Bool {
 // With the data, you can convert it based on it's type
 func didReceiveDataOfType(type: UInt32, data: Data) {
     if type == PTType.string.rawValue {
-        let string = data.convert() as! Int
+        let string = data.convert() as! String
     } else if type == PTType.image.rawValue {
         let image = UIImage(data: data)
     }

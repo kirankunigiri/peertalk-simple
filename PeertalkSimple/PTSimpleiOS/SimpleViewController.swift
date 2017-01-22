@@ -18,7 +18,7 @@ class SimpleViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     
     // Properties
-    let ptManager = Helper.ptManager
+    let ptManager = PTManager.instance
     let imagePicker = UIImagePickerController()
     
     // UI Setup

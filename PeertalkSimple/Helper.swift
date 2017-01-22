@@ -10,14 +10,6 @@ import Foundation
 
 let PORT_NUMBER = 2345
 
-class Helper {
-    
-    static let ptManager = PTManager()
-    
-    static func initialize() {}
-    
-}
-
 extension String {
     
     /** A representation of the string in DispatchData form */

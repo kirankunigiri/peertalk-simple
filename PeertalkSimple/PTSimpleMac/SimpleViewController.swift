@@ -16,7 +16,7 @@ class SimpleViewController: NSViewController {
     @IBOutlet weak var statusLabel: NSTextField!
     
     // MARK: - Properties
-    let ptManager = PTManager()
+    let ptManager = PTManager.instance
     var panel = NSOpenPanel()
     
     override func viewDidLoad() {
@@ -81,6 +81,7 @@ extension SimpleViewController: PTManagerDelegate {
     }
     
     func connectionDidChange(connected: Bool) {
+        print("Connection: \(connected)")
         self.statusLabel.stringValue = connected ? "Connected" : "Disconnected"
     }
     

@@ -27,6 +27,8 @@ protocol PTManagerDelegate {
     
     class PTManager: NSObject {
         
+        static let instance = PTManager()
+        
         // MARK: Properties
         var delegate: PTManagerDelegate?
         var portNumber: Int?
@@ -66,7 +68,7 @@ protocol PTManagerDelegate {
         }
         
         /** Closes the USB connectin */
-        func closeConnection() {
+        func disconnect() {
             self.serverChannel?.close()
             self.peerChannel?.close()
             peerChannel = nil
@@ -168,6 +170,8 @@ protocol PTManagerDelegate {
     
     class PTManager: NSObject {
         
+        static var instance = PTManager()
+        
         // MARK: Properties
         var delegate: PTManagerDelegate?
         fileprivate var portNumber: Int?
@@ -227,7 +231,7 @@ protocol PTManagerDelegate {
         }
         
         /** Closes the USB connection */
-        fileprivate func disconnectFromCurrentChannel() {
+        fileprivate func disconnect() {
             if connectedDeviceID != nil && connectedChannel != nil {
                 connectedChannel?.close()
                 self.connectedChannel = nil
@@ -329,7 +333,7 @@ protocol PTManagerDelegate {
                     // Update our properties on our thread
                     self.notConnectedQueue.async(execute: {() -> Void in
                         if self.connectingToDeviceID == nil || !deviceID.isEqual(to: self.connectingToDeviceID) {
-                            self.disconnectFromCurrentChannel()
+                            self.disconnect()
                             self.connectingToDeviceID = deviceID
                             self.connectedDeviceProperties = (note.userInfo?["Properties"] as? NSDictionary)
                             self.enqueueConnectToUSBDevice()
@@ -385,7 +389,7 @@ protocol PTManagerDelegate {
                 channel?.connect(toPort: in_port_t(portNumber!), iPv4Address: INADDR_LOOPBACK, callback: { (error, address) in
                     if error == nil {
                         // Update to new channel
-                        self.disconnectFromCurrentChannel()
+                        self.disconnect()
                         self.connectedChannel = channel
                         channel?.userInfo = address!
                     } else {
