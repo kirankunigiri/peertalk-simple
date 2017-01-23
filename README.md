@@ -73,12 +73,12 @@ The other methods give you other information about your devices and data, but th
 
 // You can reject data before receiving it if it is a certain type
 // Because I always want to accept the data, I return true no matter what
-func shouldAcceptDataOfType(type: UInt32) -> Bool {
+func peertalk(shouldAcceptDataOfType type: UInt32) -> Bool {
     return true
 }
 
 // With the data, you can convert it based on it's type
-func didReceiveDataOfType(type: UInt32, data: Data) {
+func peertalk(didReceiveData data: Data, ofType type: UInt32) {
     if type == PTType.string.rawValue {
         let string = data.convert() as! String
     } else if type == PTType.image.rawValue {
@@ -87,7 +87,7 @@ func didReceiveDataOfType(type: UInt32, data: Data) {
 }
 
 // You can perform any updates when the connection status changes
-func connectionDidChange(connected: Bool) {}
+func peertalk(didChangeConnection connected: Bool) {}
 ```
 
 And that's how simple it is to use! Remember, PTManager works the same across iOS and macOS, so you can resuse the same code.
