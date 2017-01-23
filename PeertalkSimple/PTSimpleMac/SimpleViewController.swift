@@ -57,6 +57,7 @@ class SimpleViewController: NSViewController {
                 let data = NSData(contentsOf: url)
                 ptManager.sendData(data: data as Data!, type: PTType.image.rawValue)
             }
+            
         }
     }
     
@@ -66,11 +67,11 @@ class SimpleViewController: NSViewController {
 
 extension SimpleViewController: PTManagerDelegate {
     
-    func shouldAcceptDataOfType(type: UInt32) -> Bool {
+    func peertalk(shouldAcceptDataOfType type: UInt32) -> Bool {
         return true
     }
     
-    func didReceiveDataOfType(type: UInt32, data: Data) {
+    func peertalk(didReceiveData data: Data, ofType type: UInt32) {
         if type == PTType.number.rawValue {
             let count = data.convert() as! Int
             self.label.stringValue = "\(count)"
@@ -80,7 +81,7 @@ extension SimpleViewController: PTManagerDelegate {
         }
     }
     
-    func connectionDidChange(connected: Bool) {
+    func peertalk(didChangeConnection connected: Bool) {
         print("Connection: \(connected)")
         self.statusLabel.stringValue = connected ? "Connected" : "Disconnected"
     }

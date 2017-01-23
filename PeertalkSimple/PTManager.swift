@@ -12,13 +12,16 @@ import Foundation
 protocol PTManagerDelegate {
     
     /** Return whether or not you want to accept the specified data type */
-    func shouldAcceptDataOfType(type: UInt32) -> Bool
+    func peertalk(shouldAcceptDataOfType type: UInt32) -> Bool
+//    func shouldAcceptDataOfType(type: UInt32) -> Bool
     
     /** Runs when the device has received data */
-    func didReceiveDataOfType(type: UInt32, data: Data)
+    func peertalk(didReceiveData data: Data, ofType type: UInt32)
+//    func didReceiveDataOfType(type: UInt32, data: Data)
     
     /** Runs when the connection has changed */
-    func connectionDidChange(connected: Bool)
+    func peertalk(didChangeConnection connected: Bool)
+//    func connectionDidChange(connected: Bool)
     
 }
 
@@ -123,7 +126,7 @@ protocol PTManagerDelegate {
             if channel != peerChannel {
                 return false
             } else {
-                return delegate!.shouldAcceptDataOfType(type: type)
+                return delegate!.peertalk(shouldAcceptDataOfType: type)
             }
         }
         
@@ -132,14 +135,14 @@ protocol PTManagerDelegate {
             // Creates the data
             let dispatchData = payload.dispatchData as DispatchData
             let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
-            delegate?.didReceiveDataOfType(type: type, data: data)
+            delegate?.peertalk(didReceiveData: data, ofType: type)
         }
         
         func ioFrameChannel(_ channel: PTChannel!, didEndWithError error: Error?) {
             printDebug("ERROR (Connection ended): \(error?.localizedDescription)")
             peerChannel = nil
             serverChannel = nil
-            delegate?.connectionDidChange(connected: false)
+            delegate?.peertalk(didChangeConnection: false)
         }
         
         func ioFrameChannel(_ channel: PTChannel!, didAcceptConnection otherChannel: PTChannel!, from address: PTAddress!) {
@@ -153,7 +156,7 @@ protocol PTManagerDelegate {
             peerChannel = otherChannel
             peerChannel?.userInfo = address
             printDebug("SUCCESS (Connected to channel)")
-            delegate?.connectionDidChange(connected: true)
+            delegate?.peertalk(didChangeConnection: true)
         }
     }
     
@@ -284,7 +287,7 @@ protocol PTManagerDelegate {
             
             // Decide whether or not to accept the frame
             func ioFrameChannel(_ channel: PTChannel!, shouldAcceptFrameOfType type: UInt32, tag: UInt32, payloadSize: UInt32) -> Bool {
-                return delegate!.shouldAcceptDataOfType(type: type)
+                return delegate!.peertalk(shouldAcceptDataOfType: type)
             }
             
             // Receive the frame data
@@ -292,7 +295,7 @@ protocol PTManagerDelegate {
                 // Creates the data
                 let dispatchData = payload.dispatchData as DispatchData
                 let data = NSData(contentsOfDispatchData: dispatchData as __DispatchData) as Data
-                self.delegate?.didReceiveDataOfType(type: type, data: data)
+                delegate?.peertalk(didReceiveData: data, ofType: type)
             }
             
             // Connection was ended
@@ -364,7 +367,7 @@ protocol PTManagerDelegate {
             // Runs when the device disconnects
             fileprivate func didDisconnect(fromDevice deviceID: NSNumber) {
                 printDebug("Disconnected from device")
-                self.delegate?.connectionDidChange(connected: false)
+                delegate?.peertalk(didChangeConnection: false)
                 
                 // Notify the class that the device has changed
                 if connectedDeviceID!.isEqual(to: deviceID) {
@@ -427,7 +430,7 @@ protocol PTManagerDelegate {
                         // Update connected device properties
                         self.connectedDeviceID = self.connectingToDeviceID
                         self.connectedChannel = channel
-                        self.delegate?.connectionDidChange(connected: true)
+                        self.delegate?.peertalk(didChangeConnection: true)
                         // Check the device properties
                         self.printDebug("\(self.connectedDeviceProperties!)")
                     }

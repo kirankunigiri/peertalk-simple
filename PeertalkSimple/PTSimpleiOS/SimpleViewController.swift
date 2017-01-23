@@ -71,21 +71,21 @@ class SimpleViewController: UIViewController {
 
 extension SimpleViewController: PTManagerDelegate {
     
-    func shouldAcceptDataOfType(type: UInt32) -> Bool {
+    func peertalk(shouldAcceptDataOfType type: UInt32) -> Bool {
         return true
     }
     
-    func didReceiveDataOfType(type: UInt32, data: Data) {
+    func peertalk(didReceiveData data: Data, ofType type: UInt32) {
         if type == PTType.number.rawValue {
             let count = data.convert() as! Int
             self.label.text = "\(count)"
         } else if type == PTType.image.rawValue {
-            let image = UIImage(data: data) 
+            let image = UIImage(data: data)
             self.imageView.image = image
         }
     }
     
-    func connectionDidChange(connected: Bool) {
+    func peertalk(didChangeConnection connected: Bool) {
         print("Connection: \(connected)")
         self.statusLabel.text = connected ? "Connected" : "Disconnected"
     }
@@ -96,26 +96,20 @@ extension SimpleViewController: PTManagerDelegate {
 
 extension SimpleViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    // Get the image and send it
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        // Get the picked image
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        
-        // Update our UI on the main thread
         self.imageView.image = image
         
-        // Send the data on the background thread to make sure the UI does not freeze
         DispatchQueue.global(qos: .background).async {
             let data = UIImageJPEGRepresentation(image, 1.0)!
             self.ptManager.sendData(data: data, type: PTType.image.rawValue, completion: nil)
         }
         
-        // Dismiss the image picker
         dismiss(animated: true, completion: nil)
     }
     
-    // Dismiss the view
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }

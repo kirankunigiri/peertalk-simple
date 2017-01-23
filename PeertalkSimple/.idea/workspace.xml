@@ -21,8 +21,8 @@
       <file leaf-file-name="PTManager.swift" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PTManager.swift">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="81" column="157" lean-forward="true" selection-start-line="81" selection-start-column="157" selection-end-line="81" selection-end-column="157" />
+            <state relative-caret-position="542">
+              <caret line="83" column="157" lean-forward="false" selection-start-line="83" selection-start-column="157" selection-end-line="83" selection-end-column="157" />
               <folding />
             </state>
           </provider>
@@ -221,11 +221,12 @@
       <workItem from="1485030257485" duration="126000" />
       <workItem from="1485030521728" duration="153000" />
       <workItem from="1485055740548" duration="173000" />
+      <workItem from="1485068719187" duration="84000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1542000" />
+    <option name="totallyTimeSpent" value="1626000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -384,7 +385,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="25" lean-forward="true" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -392,6 +392,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="30" column="67" lean-forward="false" selection-start-line="30" selection-start-column="67" selection-end-line="30" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PTManager.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="83" column="157" lean-forward="false" selection-start-line="83" selection-start-column="157" selection-end-line="83" selection-end-column="157" />
           <folding />
         </state>
       </provider>
@@ -408,14 +416,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
           <caret line="44" column="4" lean-forward="false" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/PTManager.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="81" column="157" lean-forward="true" selection-start-line="81" selection-start-column="157" selection-end-line="81" selection-end-column="157" />
           <folding />
         </state>
       </provider>
