@@ -13,15 +13,12 @@ protocol PTManagerDelegate {
     
     /** Return whether or not you want to accept the specified data type */
     func peertalk(shouldAcceptDataOfType type: UInt32) -> Bool
-//    func shouldAcceptDataOfType(type: UInt32) -> Bool
     
     /** Runs when the device has received data */
     func peertalk(didReceiveData data: Data, ofType type: UInt32)
-//    func didReceiveDataOfType(type: UInt32, data: Data)
     
     /** Runs when the connection has changed */
     func peertalk(didChangeConnection connected: Bool)
-//    func connectionDidChange(connected: Bool)
     
 }
 
