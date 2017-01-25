@@ -1,6 +1,6 @@
-# peertalk-simple ![License MIT](https://img.shields.io/badge/platform-iOS+macOS-677cf4.svg)
+# peertalk-simple ![Platform](https://img.shields.io/badge/platform-iOS+macOS-677cf4.svg)
 ![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)
-![License MIT](https://img.shields.io/badge/build-passing-brightgreen.svg)
+![Build Passing](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
 This library simplifies [peertalk](https://github.com/rsms/peertalk) by Rasmus, and allows for simplified communication between iOS and Mac devices via USB. This project contains 2 things.
 
@@ -46,9 +46,7 @@ func applicationDidBecomeActive(_ application: UIApplication) {
 
 #### Send Data
 
-We can start sending data now! Peertalk can send DispatchData, Data, and also any type of object (it automatically converts it to data). However, if we send multiple objects (such as images or dictionaries), we need a way to know which type of object we sent so that we can convert it back. We can actually use an enum to send the type of object we sent! Here's a small example.
-
-I've created an enum called PTType, and I've created 2 types - strings and images.
+You can add a tag to the data you send so that the receiver knows what the data is. You can create a `UInt32` enum to manage them. Here's an example with 2 types: strings and images.
 
 ```swift
 enum PTType: UInt32 {
@@ -57,7 +55,7 @@ enum PTType: UInt32 {
 }
 ```
 
-Now, let's send a String!
+Now, let's send a String! Family automatically converts objects to data using `NSKeyedArchiver`, so if you want to send your own data, use the `sendData` method instead.
 
 ```swift
 ptManager.sendObject(object: "Hello World", type: PTType.string.rawValue)
@@ -67,7 +65,7 @@ ptManager.sendObject(object: "Hello World", type: PTType.string.rawValue)
 
 Let's receive data now! We just need to conform to the PTManagerDelegate protocol.
 
-The other methods give you other information about your devices and data, but the `didReceiveDataOfType` method is where you can actually receive and use data. Here, I check the type of the data using our enum, and convert it to the corresponding object! PTManager uses the NSKeyedArchiver class to convert objects to data, so I've added an extension to the Data class - the method `convert()` - that you can use to return it to the specified type.
+The other methods give you other information about your devices and data, but the `didReceiveDataOfType` method is where you can actually receive and use data. Here, I check the type of the data and convert it to the corresponding object. The class has an extension to the Data class - the method `convert()` - that uses the NSKeyedArchiver class so you can convert data back into the object you need.
 
 ```swift
 
@@ -94,4 +92,3 @@ And that's how simple it is to use! Remember, PTManager works the same across iO
 
 ## Contribute
 Feel free to to contribute to the project with a pull request or open up an issue for any new features or bug fixes.
-
