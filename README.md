@@ -17,7 +17,7 @@ In the Xcode project, there are 2 targets (for iOS and macOS) with demos of peer
 
 ## Demo
 
- ![Upload](Images/PeertalkDemo.gif)
+ ![Demo](Images/PeertalkDemo.gif)
 
 ## Installation
 
@@ -65,7 +65,7 @@ ptManager.sendObject(object: "Hello World", type: PTType.string.rawValue)
 
 Let's receive data now! We just need to conform to the PTManagerDelegate protocol.
 
-The other methods give you other information about your devices and data, but the `didReceiveDataOfType` method is where you can actually receive and use data. Here, I check the type of the data and convert it to the corresponding object. The class has an extension to the Data class - the method `convert()` - that uses the NSKeyedArchiver class so you can convert data back into the object you need.
+The other methods give you other information about your devices and data, but the `didReceiveDataOfType` method is where you can actually receive and use data. Here, I check the type of the data and convert it to the corresponding object. The class has an extension to the Data class - the method `convert()` - that uses the NSKeyedArchiver class to convert data back into the object you need.
 
 ```swift
 
