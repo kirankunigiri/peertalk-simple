@@ -41,7 +41,7 @@ class ManualViewController: UIViewController {
         // Make sure the Mac app uses the same number. Any 4 digit integer will work fine.
         channel?.listen(onPort: in_port_t(PORT_NUMBER), iPv4Address: INADDR_LOOPBACK, callback: { (error) in
             if error != nil {
-                print("ERROR (Listening to post): \(error?.localizedDescription)")
+                print("ERROR (Listening to post): \(error?.localizedDescription ?? "-1")")
             } else {
                 self.serverChannel = channel
             }
@@ -164,7 +164,7 @@ extension ManualViewController: PTChannelDelegate {
     }
     
     func ioFrameChannel(_ channel: PTChannel!, didEndWithError error: Error?) {
-        print("ERROR (Connection ended): \(error?.localizedDescription)")
+        print("ERROR (Connection ended): \(String(describing: error?.localizedDescription))")
         self.statusLabel.text = "Status: Disconnected"
     }
     

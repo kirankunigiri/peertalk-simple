@@ -136,7 +136,7 @@ protocol PTManagerDelegate {
         }
         
         func ioFrameChannel(_ channel: PTChannel!, didEndWithError error: Error?) {
-            printDebug("ERROR (Connection ended): \(error?.localizedDescription)")
+            printDebug("ERROR (Connection ended): \(String(describing: error?.localizedDescription))")
             peerChannel = nil
             serverChannel = nil
             delegate?.peertalk(didChangeConnection: false)
@@ -384,7 +384,7 @@ protocol PTManagerDelegate {
             
             fileprivate func connectToLocalIPv4Port() {
                 let channel = PTChannel(delegate: self)
-                channel?.userInfo = "127.0.0.1:\(portNumber)"
+                channel?.userInfo = "127.0.0.1:\(portNumber ?? -1)"
                 
                 channel?.connect(toPort: in_port_t(portNumber!), iPv4Address: INADDR_LOOPBACK, callback: { (error, address) in
                     if error == nil {
