@@ -30,7 +30,7 @@ class SimpleViewController: NSViewController {
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
-        panel.allowedFileTypes = NSImage.imageTypes()
+        panel.allowedFileTypes = NSImage.imageTypes
     }
     
     
@@ -49,7 +49,7 @@ class SimpleViewController: NSViewController {
             let opened = panel.runModal()
             
             // If the user selected an image, update the UI and send the image
-            if opened == NSFileHandlingPanelOKButton {
+            if opened.rawValue == NSFileHandlingPanelOKButton {
                 let url = panel.url!
                 let image = NSImage(byReferencing: url)
                 self.imageView.image = image

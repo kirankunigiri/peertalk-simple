@@ -63,7 +63,7 @@ class ManualViewController: NSViewController {
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
-        panel.allowedFileTypes = NSImage.imageTypes()
+        panel.allowedFileTypes = NSImage.imageTypes
     }
 
     // Add 1 to our counter label and send the data if the device is connected
@@ -84,7 +84,7 @@ class ManualViewController: NSViewController {
             let opened = panel.runModal()
             
             // If the user selected an image, update the UI and send the image
-            if opened == NSFileHandlingPanelOKButton {
+            if opened.rawValue == NSFileHandlingPanelOKButton {
                 let url = panel.url!
                 let image = NSImage(byReferencing: url)
                 self.imageView.image = image
@@ -229,7 +229,7 @@ extension ManualViewController {
         }
     }
     
-    func enqueueConnectToLocalIPv4Port() {
+    @objc func enqueueConnectToLocalIPv4Port() {
         notConnectedQueue.async(execute: {() -> Void in
             DispatchQueue.main.async(execute: {() -> Void in
                 self.connectToLocalIPv4Port()
@@ -255,7 +255,7 @@ extension ManualViewController {
         })
     }
     
-    func enqueueConnectToUSBDevice() {
+    @objc func enqueueConnectToUSBDevice() {
         notConnectedQueue.async(execute: {() -> Void in
             DispatchQueue.main.async(execute: {() -> Void in
                 self.connectToUSBDevice()
